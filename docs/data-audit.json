@@ -1,0 +1,65 @@
+{
+  "status": "AUDIT_WITH_LIMITATIONS",
+  "source_roots": [
+    "D:\\QQQ\\OHLCV_daily",
+    "D:\\QQQ\\raw_theta"
+  ],
+  "counts": {
+    "underlying": 6592,
+    "greeks": 5633,
+    "ohlcv": 5632,
+    "trades": 5632,
+    "oi_before": 12763,
+    "oi": 7070
+  },
+  "catalog_diagnostics": {
+    "DUPLICATE_LOGICAL_PARTITION": 5681
+  },
+  "duplicate_keys_by_type": {
+    "oi_before": 5539,
+    "underlying": 63
+  },
+  "ranges": {
+    "oi_before": {
+      "first": "2012-06-01",
+      "last": "2025-10-09"
+    },
+    "trades": {
+      "first": "2012-06-01",
+      "last": "2025-09-16"
+    },
+    "underlying": {
+      "first": "1999-10-01",
+      "last": "2025-09-16"
+    },
+    "ohlcv": {
+      "first": "2012-06-01",
+      "last": "2025-09-16"
+    },
+    "oi": {
+      "first": "2012-06-01",
+      "last": "2025-09-16"
+    },
+    "greeks": {
+      "first": "2012-06-01",
+      "last": "2025-09-16"
+    }
+  },
+  "sample": {
+    "asof": "2012-06-01T10:01:00-04:00",
+    "spot": 61.18,
+    "candles": 31,
+    "contracts": 40,
+    "diagnostics": {
+      "DUPLICATE_LOGICAL_PARTITION": 1
+    },
+    "flags": {
+      "AMBIGUOUS_IV_UNITS": 40,
+      "CONTRACT_METADATA_UNVERIFIED": 40,
+      "ZERO_BID": 17
+    },
+    "snapshot_hash": "ca2727c3ec18524d2469b24474b009a88cd2cc1f58dbae8a32b54273dc9de1f5"
+  },
+  "elapsed_seconds": 8.30257409999831,
+  "scope": "Filename/size/mtime catalog plus one actual-format 2012-06-01 10:01 snapshot. Not full-data integrity certification. Sources opened read-only."
+}

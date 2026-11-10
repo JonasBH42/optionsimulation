@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "specification": "P50-M20 and P50-M03",
+  "implementation": "src/qqq_sim/risk/offline/design.py",
+  "source_profile": "SYNTHETIC_QQQ_CONTRACTS_V1",
+  "historical_observations_used": false,
+  "implemented": [
+    "Dataset-level Latin hypercube permutations/jitters and semantic per-case PCG64 state are persisted. Actual selected dates, timestamps, shape and RNG state accompany each materialized case.",
+    "Session-aware initial fixing, 30-calendar-day explicit hard cutoff, candidate expiry offsets0,1,2,4,7,14,21,30 with holiday adjustment and deduplication; requested expiry counts cycle1,2,4,8.",
+    "One-dollar strike ladders and explicit tail fixtures; fractional increments are admitted only when the synthetic adapter supplies them. Exact current contracts are retained, and every excluded contract/expiry is recorded.",
+    "Term surface sigma_anchor + skew*k + curvature*k^2 + term_slope*(sqrt(tau)-sqrt(tau_anchor)), with support rejection and executable quote-arbitrage checks, reference-price sides rounded outward to ticks, and no IV clipping.",
+    "ATM anchor nearest the fixed hard cutoff, valid known strikes within5percent log-forward moneyness, reference-repriced vega/spread weights, capped weights, weighted-median path IV and dispersion gates. The observed selector value is authoritative rather than the generating sigma_anchor.",
+    "Actual synthetic Broker opening creates premium cash, fees, initial gross maximum and frozen target. Ongoing cases use zero through three declared generated adjustments, one sequential GBM path, next-opportunity quotes, full broker submission checks, actual fill/nonfill outcomes, and a complete final ledger/account context.",
+    "Flat-below-target reentry and stopped/successful states retain the original target. Closed observation cases inherit an earlier eligible opening; no off-session order fill is invented.",
+    "Eligible quarter-span reporting instants, original fixing/cutoff and a seeded subminute report; closed cases also preserve an ineligible report. Intraday initial observations vary with a stored coordinate so near-close cases are represented."
+  ],
+  "bounded_admission_interpretation": {
+    "reason": "A literal sequential exhaustion of each full138-contract expiry ladder would consume512 contracts before reaching eight expiries. To exercise the specified eight-expiry design within the same512-contract ceiling, the factory retains current contracts and expands near-spot strike ranks across selected expiries.",
+    "ordering": "Current contracts first; then absolute log-moneyness, lower strike, expiry distance to hard cutoff (later expiry wins ties), and right.",
+    "audit": "Each case stores the exact selected fixing set, rule name, excluded contracts and excluded expiry candidates. This is an explicitly narrowed synthetic action universe, not a claim that excluded contracts were infeasible."
+  },
+  "accounting_scope": {
+    "production": "All materialized feasible production openings and history actions use the actual account engine. Infeasible openings return a typed rejection for separate feasibility accounting.",
+    "research": "The named call-only/q=0 diagnostic domain has explicitly unqualified modeled opening accounting and does not claim production campaign trajectory coverage.",
+    "fixed_objective": "H0 and original deadline/hard cutoff are never reset by generated adjustments. A new query at the generated present recomputes path-IV normalization while retaining the original trajectory law and ledger as evidence."
+  },
+  "verification": {
+    "test_file": "tests/test_account_design.py",
+    "cases": "Eight-expiry512-contract surface, exact formula and ATM reconstruction, actual three-action fill/nonfill ledger, deterministic replay hash, earlier eligible fill for a closed observation, support rejection, and budget check before pricing.",
+    "production_qualification_claimed": false
+  },
+  "mandatory_untouched_edge_design": {
+    "implementation": "src/qqq_sim/risk/offline/edge_design.py",
+    "source_requirement": "P50-M11",
+    "materialized_cases": 1000,
+    "cases_per_family": {"NARROW": 200, "TANGENT": 200, "DISJOINT": 200, "NEAR_EXPIRY": 200, "LOW_BUDGET": 200},
+    "rejections": 0,
+    "elapsed_seconds": 20.98332709999886,
+    "frozen_cases": "runtime/risk_validation/heldout_m11/frozen_cases.jsonl",
+    "manifest": "runtime/risk_validation/heldout_m11/manifest.json",
+    "bytes": 66654907,
+    "sha256": "f8b20c77aa0b82d90178070774f13a5fc27d5a2ea85090b596e463b4f6936343",
+    "partition": "Entire families and reserved-expiry universes are validation-only; training, calibration and augmentation-seed eligibility are false.",
+    "narrow_and_tangent_construction": "Actual two-unit butterfly opening followed by an actual one-unit partial close at the original unit debit, plus one dollar for the narrow family. The original target remains fixed. Exact Decimal terminal topology verifies a point contact or a two-cent-wide interval.",
+    "other_properties": "Actual inverse-butterfly disjoint terminal tails; 60/120/300-second true remaining lifetime; actual expense budget10.01 with mandatory delivery10 and one remaining action.",
+    "qualification": "Exact frozen design, ledger and edge-property evidence only. Numerical reference labels and surrogate qualification still require their independent gates.",
+    "tests": {"files": ["tests/test_heldout_edge_design.py", "tests/test_account_design.py"], "passed": 23, "seconds": 16.52}
+  }
+}

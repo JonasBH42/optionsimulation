@@ -1,0 +1,14 @@
+{
+  "timestamp_column": null,
+  "source_timezone": "America/New_York",
+  "bar_label_semantics": "START",
+  "strike_divisor": null,
+  "iv_unit": null,
+  "greek_units": [],
+  "metadata_verified": false,
+  "mapping_version": "QQQ_NORMALIZATION_V1",
+  "timestamp_precision": "minute",
+  "confidence": "EXPLICIT_CONTRACT",
+  "rate": null,
+  "carry": null
+}

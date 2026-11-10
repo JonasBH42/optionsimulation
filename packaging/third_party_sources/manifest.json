@@ -1,0 +1,132 @@
+{
+  "schema_version": 1,
+  "scope": "PRIVATE_PROJECT_DEPENDENCY_LICENSE_AND_UPSTREAM_SOURCE_EVIDENCE",
+  "archives_unmodified": true,
+  "application_license_assigned": false,
+  "records": [
+    {
+      "component": "GPL-3.0",
+      "version": "3.0",
+      "origin_url": "https://download.qt.io/official_releases/QtForPython/pyside6/PySide6-6.12.0-src/pyside-setup-everywhere-src-6.12.0.tar.xz",
+      "archive_member": "pyside-setup-everywhere-src-6.12.0/LICENSES/GPL-3.0-only.txt",
+      "path": "packaging/licenses/GPL-3.0.txt",
+      "bytes": 35147,
+      "sha256": "8ceb4b9ee5adedde47b31e975c1d90c73ad27b6b165a1dcd80c7c545eb65b903",
+      "checksum_status": "EXACT_LICENSE_FROM_OFFICIAL_HASH_VERIFIED_QT_SOURCE_ARCHIVE",
+      "gnu_direct_download_attempt": "Connection timeout; official Qt source license retained instead",
+      "portable_path": "licenses/GPL-3.0.txt"
+    },
+    {
+      "component": "LGPL-2.1",
+      "version": "2.1",
+      "origin_url": "https://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt",
+      "path": "packaging/licenses/LGPL-2.1.txt",
+      "bytes": 26419,
+      "sha256": "20e50fe7aae3e56378ebf0417d9de904f55a0e61e4df315333e632a4d3555d95",
+      "official_sha256": null,
+      "checksum_status": "LOCAL_SHA256_OF_OFFICIAL_LICENSE_TEXT",
+      "reused_verified_download": true,
+      "portable_path": "licenses/LGPL-2.1.txt"
+    },
+    {
+      "component": "LGPL-3.0",
+      "version": "3.0",
+      "origin_url": "https://www.gnu.org/licenses/lgpl-3.0.txt",
+      "path": "packaging/licenses/LGPL-3.0.txt",
+      "bytes": 7652,
+      "sha256": "e3a994d82e644b03a792a930f574002658412f62407f5fee083f2555c5f23118",
+      "official_sha256": null,
+      "checksum_status": "LOCAL_SHA256_OF_OFFICIAL_LICENSE_TEXT",
+      "reused_verified_download": true,
+      "portable_path": "licenses/LGPL-3.0.txt"
+    },
+    {
+      "component": "OpenSSL-3.5.9-APACHE-2.0",
+      "version": "3.5.9",
+      "origin_url": "https://raw.githubusercontent.com/openssl/openssl/openssl-3.5.9/LICENSE.txt",
+      "resolved_download_url": "https://raw.githubusercontent.com/openssl/openssl/openssl-3.5.9/LICENSE.txt",
+      "path": "packaging/licenses/OpenSSL-3.5.9-APACHE-2.0.txt",
+      "bytes": 10175,
+      "sha256": "7d5450cb2d142651b8afa315b5f238efc805dad827d91ba367d8516bc9d49e7a",
+      "official_sha256": null,
+      "checksum_status": "LOCAL_SHA256_OF_OFFICIAL_LICENSE_TEXT",
+      "retrieved_at_utc": "2026-11-09T17:36:36.528143+00:00",
+      "portable_path": "licenses/OpenSSL-3.5.9-APACHE-2.0.txt"
+    },
+    {
+      "component": "libffi-LICENSE",
+      "version": "3.4.8 license reference; exact bundled libffi binary version not embedded",
+      "origin_url": "https://raw.githubusercontent.com/libffi/libffi/v3.4.8/LICENSE",
+      "resolved_download_url": "https://raw.githubusercontent.com/libffi/libffi/v3.4.8/LICENSE",
+      "path": "packaging/licenses/libffi-LICENSE.txt",
+      "bytes": 1132,
+      "sha256": "67894089811f93fca47a76f85e017da6f8582d4ba0905963c6e0f1ad6df7a195",
+      "official_sha256": null,
+      "checksum_status": "LOCAL_SHA256_OF_OFFICIAL_LICENSE_TEXT",
+      "retrieved_at_utc": "2026-11-09T17:36:36.529139+00:00",
+      "portable_path": "licenses/libffi-LICENSE.txt"
+    },
+    {
+      "component": "pyside-setup",
+      "version": "6.12.0",
+      "origin_url": "https://download.qt.io/official_releases/QtForPython/pyside6/PySide6-6.12.0-src/pyside-setup-everywhere-src-6.12.0.tar.xz",
+      "path": "packaging/third_party_sources/pyside-setup-everywhere-src-6.12.0.tar.xz",
+      "bytes": 18211772,
+      "sha256": "099c1a597cf33c1b000e11cf68a0b82d216fb802bf81726efc720394f10c7751",
+      "official_sha256": "099c1a597cf33c1b000e11cf68a0b82d216fb802bf81726efc720394f10c7751",
+      "checksum_status": "MATCHES_OFFICIAL_SHA256",
+      "reused_verified_download": true,
+      "portable_path": "third_party_sources/pyside-setup-everywhere-src-6.12.0.tar.xz"
+    },
+    {
+      "component": "qtbase",
+      "version": "6.12.0",
+      "origin_url": "https://download.qt.io/official_releases/qt/6.12/6.12.0/submodules/qtbase-everywhere-src-6.12.0.tar.xz",
+      "path": "packaging/third_party_sources/qtbase-everywhere-src-6.12.0.tar.xz",
+      "bytes": 51220268,
+      "sha256": "a951bd163c7b80fc6b8c88d7668fb56abf91c152373e13c10666763238131307",
+      "official_sha256": "a951bd163c7b80fc6b8c88d7668fb56abf91c152373e13c10666763238131307",
+      "checksum_status": "MATCHES_OFFICIAL_SHA256",
+      "reused_verified_download": true,
+      "portable_path": "third_party_sources/qtbase-everywhere-src-6.12.0.tar.xz"
+    },
+    {
+      "component": "qtimageformats",
+      "version": "6.12.0",
+      "origin_url": "https://download.qt.io/official_releases/qt/6.12/6.12.0/submodules/qtimageformats-everywhere-src-6.12.0.tar.xz",
+      "path": "packaging/third_party_sources/qtimageformats-everywhere-src-6.12.0.tar.xz",
+      "bytes": 1848620,
+      "sha256": "0943132b5db8de6b6a7f1d162682173e8763c7ed94e80fd39113292845f67762",
+      "official_sha256": "0943132b5db8de6b6a7f1d162682173e8763c7ed94e80fd39113292845f67762",
+      "checksum_status": "MATCHES_OFFICIAL_SHA256",
+      "reused_verified_download": true,
+      "portable_path": "third_party_sources/qtimageformats-everywhere-src-6.12.0.tar.xz"
+    },
+    {
+      "component": "qtsvg",
+      "version": "6.12.0",
+      "origin_url": "https://download.qt.io/official_releases/qt/6.12/6.12.0/submodules/qtsvg-everywhere-src-6.12.0.tar.xz",
+      "path": "packaging/third_party_sources/qtsvg-everywhere-src-6.12.0.tar.xz",
+      "bytes": 2341876,
+      "sha256": "e4ab39534ec97987b1b9b60ef7f4d3253d5912a69f8c713a01753174a4029331",
+      "official_sha256": "e4ab39534ec97987b1b9b60ef7f4d3253d5912a69f8c713a01753174a4029331",
+      "checksum_status": "MATCHES_OFFICIAL_SHA256",
+      "reused_verified_download": true,
+      "portable_path": "third_party_sources/qtsvg-everywhere-src-6.12.0.tar.xz"
+    },
+    {
+      "component": "qtwebengine-including-qtpdf",
+      "version": "6.140.0",
+      "origin_url": "https://download.qt.io/online/qtsdkrepository/all_os/extensions/qtwebengine/6120/61400/src_doc_examples/extensions.qtwebengine.6120.61400.src/6.12.0-0-202609281005qtwebengine-everywhere-src-6.140.0.tar.xz",
+      "resolved_download_url": "https://ftp.fau.de/qtproject/online/qtsdkrepository/all_os/extensions/qtwebengine/6120/61400/src_doc_examples/extensions.qtwebengine.6120.61400.src/6.12.0-0-202609281005qtwebengine-everywhere-src-6.140.0.tar.xz",
+      "path": "packaging/third_party_sources/qtwebengine-everywhere-src-6.140.0.tar.xz",
+      "bytes": 584649116,
+      "sha256": "141e9b230e5ec9ee65a7357ca4b87d702e4badc515289eeade1047a788bb96e7",
+      "official_sha256": "141e9b230e5ec9ee65a7357ca4b87d702e4badc515289eeade1047a788bb96e7",
+      "checksum_status": "MATCHES_OFFICIAL_SHA256",
+      "retrieved_at_utc": "2026-11-09T17:37:07.619757+00:00",
+      "portable_path": "third_party_sources/qtwebengine-everywhere-src-6.140.0.tar.xz"
+    }
+  ],
+  "failures": []
+}

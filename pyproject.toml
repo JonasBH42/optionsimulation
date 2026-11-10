@@ -1,0 +1,29 @@
+[build-system]
+requires = ["setuptools>=75", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "qqq-simulator"
+version = "0.1.0"
+description = "Local, causal QQQ historical options simulator"
+requires-python = ">=3.12,<3.13"
+dependencies = [
+  "PySide6", "pyqtgraph", "numpy", "scipy", "pyarrow", "duckdb", "tzdata"
+]
+
+[project.optional-dependencies]
+build = ["torch"]
+dev = ["pytest", "pytest-qt", "psutil"]
+deploy = ["Nuitka==4.1.1", "ordered-set", "zstandard", "pip"]
+
+[project.scripts]
+qqq-sim = "qqq_sim.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra --basetemp=D:/optionsimulation/.tmp/pytest"
+qt_api = "pyside6"
+markers = ["numerical: numerical validation", "slow: expensive offline validation"]

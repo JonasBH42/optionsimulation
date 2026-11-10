@@ -1,0 +1,76 @@
+{
+  "python": "3.12.16 (main, Oct 26 2026, 14:10:56) [MSC v.1944 64 bit (AMD64)]",
+  "platform": "Windows-10-10.0.19045-SP0",
+  "metadata_scan_seconds": 15.771003900001233,
+  "snapshot_timings": [
+    {
+      "decision_at": "2012-06-01T10:01:00-04:00",
+      "elapsed_seconds": 0.8892919000027177,
+      "visible_candles": 31,
+      "contracts": 40,
+      "snapshot_hash": "106e962e186a848e5a05b357c321576b81d592da7ededf3b43bc1dbd56e89a3e"
+    },
+    {
+      "decision_at": "2012-06-01T10:02:00-04:00",
+      "elapsed_seconds": 0.1350614000002679,
+      "visible_candles": 32,
+      "contracts": 40,
+      "snapshot_hash": "61d6a9132edeb7d53022cb37cacd9b6b6148c446689123d606d7a0044488073a"
+    },
+    {
+      "decision_at": "2012-06-01T10:03:00-04:00",
+      "elapsed_seconds": 0.10046729999885429,
+      "visible_candles": 33,
+      "contracts": 40,
+      "snapshot_hash": "6110ee3f284c17b95c76ea9dfc8caa286394d3b6389db4396190ad7dacff9dd6"
+    },
+    {
+      "decision_at": "2012-06-01T15:58:00-04:00",
+      "elapsed_seconds": 2.7465507999986585,
+      "visible_candles": 388,
+      "contracts": 40,
+      "snapshot_hash": "bd82424ed199eee9cdd43ae73d34d9fec97fa144e74fd172525d16ad07eb99f6"
+    },
+    {
+      "decision_at": "2012-06-01T15:59:00-04:00",
+      "elapsed_seconds": 0.9440031999984058,
+      "visible_candles": 389,
+      "contracts": 40,
+      "snapshot_hash": "ece330d8ee9db70d2a58b407f30fa8e079a56a4779d736f4fd78ed5ea200537d"
+    },
+    {
+      "decision_at": "2012-06-01T16:00:00-04:00",
+      "elapsed_seconds": 0.6907662000012351,
+      "visible_candles": 390,
+      "contracts": 40,
+      "snapshot_hash": "4b1bdabae46a54ebc03ad73a3860b80615f3f95dcfd428ddfcac77ddce288d22"
+    }
+  ],
+  "source_revision": {
+    "revision_id": "379f14f6cec7a3809ae00b71d1749a957f72e9e52966ab4d19a6b4382e7beb62",
+    "sources": [
+      {
+        "path": "D:\\QQQ\\raw_theta\\greeks\\greeks_20120601_exp=2012-06-01.csv.gz",
+        "size": 403533,
+        "mtime_ns": 1760462135969175900,
+        "sha256": "f2cca61e58da6d5a89c240ac0bbeb4426beb7411b20a858814cf7b06e5f668d4"
+      },
+      {
+        "path": "D:\\QQQ\\raw_theta\\ohlcv\\ohlcv_20120601_exp=2012-06-01.csv.gz",
+        "size": 13057,
+        "mtime_ns": 1760462138093339600,
+        "sha256": "2d3e3b61869ffc89a4edb85b9e4a06ead99cd7faccd0eb7656195f2f6ad63c66"
+      },
+      {
+        "path": "D:\\QQQ\\OHLCV_daily\\QQQ_1m_2012-06-01.parquet",
+        "size": 22305,
+        "mtime_ns": 1761662470677446100,
+        "sha256": "eeb04fb638159200d9dbb1ce3ec7b152d62e82cbe9ceb4e9a3417a2808e9baa2"
+      }
+    ]
+  },
+  "source_hashes_verified_unchanged_after_reads": true,
+  "cache_budget_bytes": 268435456,
+  "cache_resident_bytes": 120075084,
+  "interpretation": "Single actual-format session, initial and warm-cache sequential measurements. Other test/build work may contend for CPU. Not whole-archive performance certification."
+}

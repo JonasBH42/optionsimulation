@@ -1,0 +1,255 @@
+{
+  "scope": "Data/calendar layer; full ledger/UI integration is recorded by root integration tests, not asserted here.",
+  "test_run": {
+    "command": ".venv\\Scripts\\python.exe -m pytest tests/test_data_catalog_updates.py tests/test_data.py tests/test_data_edge_cases.py tests/test_calendar.py -q --basetemp=D:\\optionsimulation\\.tmp\\pytest-data-catalog-final",
+    "passed": 35,
+    "failed": 0
+  },
+  "requirements": {
+    "DT-01": {
+      "status": "SUPPORTED_BEHAVIOR_TESTED",
+      "tests": [
+        "test_time_alias_units_and_legacy_selector",
+        "test_dst_rejects_ambiguous_and_nonexistent_input",
+        "test_contradictory_redundant_timestamps_rejected"
+      ]
+    },
+    "DT-02": {
+      "status": "SUPPORTED_BEHAVIOR_TESTED",
+      "tests": [
+        "test_catalog_prefix_duplicates_and_bound_changes"
+      ]
+    },
+    "DT-03": {
+      "status": "SUPPORTED_BEHAVIOR_TESTED",
+      "tests": [
+        "test_zero_volume_invalid_geometry_and_duplicate_minute",
+        "test_missing_slot_not_substituted"
+      ]
+    },
+    "DT-04": {
+      "status": "SUPPORTED_BEHAVIOR_TESTED",
+      "tests": [
+        "test_boundary_is_not_391st_bar_and_end_labels_not_shifted_twice",
+        "test_early_close_fixture_contains_210_minutes"
+      ]
+    },
+    "DT-05": {
+      "status": "SUPPORTED_BEHAVIOR_TESTED",
+      "tests": [
+        "test_mismatched_expiry_and_unknown_greek_do_not_invent_values",
+        "test_time_alias_units_and_legacy_selector"
+      ]
+    },
+    "DT-06": {
+      "status": "SUPPORTED_BEHAVIOR_TESTED",
+      "tests": [
+        "test_time_alias_units_and_legacy_selector"
+      ]
+    },
+    "DT-07": {
+      "status": "SUPPORTED_BEHAVIOR_TESTED",
+      "tests": [
+        "test_invalid_latest_keeps_prior_only_as_stale_mark",
+        "test_conflicting_same_time_without_sequence_cannot_fill"
+      ]
+    },
+    "DT-08": {
+      "status": "SUPPORTED_BEHAVIOR_TESTED",
+      "tests": [
+        "test_quote_boundary_exclusive_and_same_instant_next_advance",
+        "test_open_and_first_complete_minute"
+      ]
+    },
+    "DT-09": {
+      "status": "SUPPORTED_BEHAVIOR_TESTED",
+      "tests": [
+        "test_open_and_first_complete_minute",
+        "test_option_temporal_semantics_are_not_assumed"
+      ]
+    },
+    "DT-10": {
+      "status": "SUPPORTED_BEHAVIOR_TESTED",
+      "tests": [
+        "test_open_and_first_complete_minute"
+      ]
+    },
+    "DT-11": {
+      "status": "SUPPORTED_BEHAVIOR_TESTED",
+      "tests": [
+        "test_time_alias_units_and_legacy_selector"
+      ]
+    },
+    "DT-12": {
+      "status": "SUPPORTED_BEHAVIOR_TESTED",
+      "tests": [
+        "test_open_and_first_complete_minute"
+      ]
+    },
+    "DT-13": {
+      "status": "SUPPORTED_BEHAVIOR_TESTED",
+      "tests": [
+        "test_partial_aggregation_and_indicators"
+      ]
+    },
+    "DT-14": {
+      "status": "SUPPORTED_BEHAVIOR_TESTED",
+      "tests": [
+        "test_future_poisoning_keeps_snapshot_identical"
+      ]
+    },
+    "DT-15": {
+      "status": "SUPPORTED_BEHAVIOR_TESTED",
+      "tests": [
+        "test_missing_slot_not_substituted",
+        "test_required_expiry_missing_stops_but_sparse_quotes_do_not"
+      ]
+    },
+    "DT-16": {
+      "status": "SUPPORTED_BEHAVIOR_TESTED",
+      "tests": [
+        "test_catalog_prefix_duplicates_and_bound_changes",
+        "test_mirror_atomic_identity_and_source_immutability"
+      ]
+    },
+    "DT-17": {
+      "status": "SUPPORTED_BEHAVIOR_TESTED",
+      "tests": [
+        "test_option_temporal_semantics_are_not_assumed",
+        "test_minute_quote_completion_precedes_barrier_without_reusing_seen_quote"
+      ]
+    },
+    "DT-18": {
+      "status": "SUPPORTED_BEHAVIOR_TESTED",
+      "tests": [
+        "test_open_and_first_complete_minute"
+      ]
+    },
+    "DT-19": {
+      "status": "SUPPORTED_BEHAVIOR_TESTED",
+      "tests": [
+        "test_barrier_precedes_same_timestamp_raw_events",
+        "test_minute_quote_completion_precedes_barrier_without_reusing_seen_quote"
+      ]
+    },
+    "DT-20": {
+      "status": "SUPPORTED_BEHAVIOR_TESTED",
+      "tests": [
+        "test_large_and_small_event_windows_identical"
+      ]
+    }
+  },
+  "implemented_modules": [
+    "catalog",
+    "normalization",
+    "underlying",
+    "theta",
+    "asof",
+    "parameters",
+    "metadata",
+    "mirror",
+    "audit",
+    "fixtures",
+    "calendar",
+    "clock",
+    "ordering"
+  ],
+  "runtime_limitations": [
+    "Full historical calendars and reference records are external observations; scenario calendar supports2012-2030 only.",
+    "Real archive duplicate logical partitions remain unresolved and are never selected silently.",
+    "No claimed automatic IV-unit identification without explicit metadata or a supplied unique repricing acceptance function.",
+    "Known standard deliverable metadata is absent in audited real sample; historical quote view works but strict new-order permission stays unavailable.",
+    "Actual source trade-condition numeric codes have no supplied meaning, so unknown conditions cannot authorize fills.",
+    "Mirrors are optional explicit cache artifacts; large gzip inputs use bounded streaming when raw cache would exceed budget."
+  ],
+  "conditional_scope": [
+    "Archive acquisition/repair requires a separate explicit task; no source repair or network download is performed."
+  ],
+  "independent_review": {
+    "owned_test_run": {
+      "command": ".venv\\Scripts\\python.exe -m pytest tests/test_data_catalog_updates.py tests/test_data.py tests/test_data_edge_cases.py tests/test_calendar.py tests/test_action_generator.py tests/test_path_iv.py tests/test_probability_quality.py tests/test_reference_wizard.py tests/test_risk_review.py tests/test_risk_universe.py tests/test_replay_integration.py -q --basetemp=D:\\optionsimulation\\.tmp\\pytest-agent-final8",
+      "passed": 80,
+      "failed": 0,
+      "meaning": "Focused regression coverage; this is not full specification or production qualification."
+    },
+    "source_wizard": {
+      "status": "IMPLEMENTED_WITH_FOCUSED_REGRESSIONS",
+      "covered": [
+        "Empty DEFAULT_SYMBOL startup context, fixed-symbol convenience, e/undo/done navigation, three trade stages, cancellation and checkpoint retention.",
+        "Canonical exact position IDs, original existing cash and frozen target, hypothetical net midpoint basis, unmatched overrides ignored without cross-position leakage.",
+        "Numeric percentage normalization, mandatory50percent, NY calendar-day offsets preserving wall time across DST, outside-horizon reporting without clamping.",
+        "Dated symbol/expiration market overrides, normalized annual decimals, explicit contract IV overrides and source provenance.",
+        "Explicit product root and eligible interval subset; unsupported fields or sessions outside underlying/option intersection reject.",
+        "Fixed-cost closing-only net companion from the separate gross-equivalent threshold; gross headline unchanged and terminal net probability null without a terminal cost convention."
+      ]
+    },
+    "model_input_quality": {
+      "status": "EXPLICIT_PROFILE_GATES_TESTED",
+      "profile": "REPLAY_QQQ_MINUTE_V1",
+      "quote_and_iv_max_age_seconds": 300,
+      "worst_case_interleg_dispersion_seconds": 60,
+      "spot": "Current completed authoritative QQQ candle required; prior substitution disabled.",
+      "minute_precision": "Worst age is D-M; uncertainty interval contributes to dispersion without adding another60seconds to age.",
+      "local_atm_fallback": "Causal weighted-median estimator wired into risk_job and wizard, requiring separately qualified packed prices, compatible normalized vendor/scenario IVs, positive validated vega, at least4contracts/2strikes/bothrights, nearest10 within log5percent, cappedweights and dispersion gate. No online offline-engine import.",
+      "limitations": "Fallback cannot invent missing/ambiguous IVs. Iterative inverse pricing remains an explicit offline operation. Real archived IV mapping and model basis remain unqualified until input evidence and pack gates pass."
+    },
+    "managed_encoder": {
+      "status": "IMPLEMENTED_AND_REGRESSION_TESTED",
+      "schema": "EXACT_TOKENS_ACCOUNT_KINK_SHOCK_ACTION_V2: HOLD950, managed state1000, action1365. Universe remains512x16 tokens, shared16-64-64 SiLU and masked pooled154features.",
+      "tests": "32 focused feature/universe tests: permutation invariance, future/unknown listing rejection, online/trainable parity, joint-training gradients, action limits/fees/stop/order-type/TIF distinctions, exact eligibility/expiry clocks, actual account evidence and transition refresh without prior-state mutation, typed malformed context, legacy-contract rejection, gross/net kink and executable target gaps, shock availability masks and missingness-regime abstention.",
+      "contract_document": "docs/features-contract.md",
+      "qualification": "Encoding tests do not qualify numerical model outputs; old feature packs require explicit rebuild and independent validation."
+    },
+    "bounded_action_generator": {
+      "status": "IMPLEMENTED_WITH_SIX_FOCUSED_REGRESSIONS",
+      "coverage": "Whole-ratio and defined-risk paired reductions, protective longs, same-right butterflies, deterministic family pools and unused quota redistribution, exact net atomic transactions and full resulting-state action identities.",
+      "limits": "At most2000 retained candidates and40000 attempted tuples, explicit truncation reasons; finite bounded search does not establish global optimality or qualify production policy probabilities."
+    },
+    "immutable_analytic_records": {
+      "status": "IMPLEMENTED_AND_INTEGRATION_TESTED",
+      "focused_suite_passed": 19,
+      "focused_suite_failed": 0,
+      "coverage": "Frozen full request and source snapshot; separate content hashes; bounded immutable memory cache; immutable/idempotent result storage; exact duplicate result retrieval; missing-pack and preparation-error records; late original-branch and closed-original-session archival; pending/completed/null-reason exports; restore and tamper checks; no economic state-version or ledger changes.",
+      "documentation": "docs/analytic-records.md",
+      "limits": "Persistence tests do not qualify numerical model outputs. Initial-fill benchmark inputs remain committed atomically with their own economic transaction and explicitly bypass separate analytic registration. A deliberate retry after an archived terminal failure needs a new request attempt identity."
+    },
+    "last_trade_visibility": {
+      "status": "FIVE_FOCUSED_REGRESSIONS_AND_REAL_SESSION_MEASUREMENT",
+      "combined_data_calendar_replay_test_passes": 46,
+      "coverage": "Cached temporal index and streaming fallback agree; minute-only trades appear at completion; corrections/cancellations apply only when known; equal-time conflicting prices without reliable source order are null with AMBIGUOUS_LAST_TRADE_ORDER; unknown conditions remain display-only quality observations.",
+      "barrier": "Event-granular records published exactly atD are phase30 and excluded from the phase25 snapshot. Minute completions atD are phase20 and included. An explicit delayed publication beyond minute completion is phase30.",
+      "actual_data": "The real selected trades have subminute source timestamps while the default shared options mapping declaresminute; TIMESTAMP_PRECISION_CONFLICT is exposed until a per-kind explicit mapping is supplied. Unknown numeric trade conditions cannot authorize fills or trade-derived volume.",
+      "performance": "2012-06-01:10:01cold0.858s,10:02/03warm0.101/0.103s,15:58first2.562s,15:59warm0.726s. These are individual bounded measurements, not a p95 qualification. Source hashes remained unchanged."
+    },
+    "reviewed_requirements": [
+      {
+        "requirement": "DATA-01 automatic directory-change catalog refresh",
+        "status": "IMPLEMENTED_AND_REGRESSION_TESTED",
+        "detail": "Directory-only mtime polling at most twice per second detects new files/folders, including formerly empty directories. Unbound views rescan automatically; adding any source partition to a bound day latches DATA_REVISION_CHANGED until a new data service/run. Selected-file mutation checks remain immediate."
+      },
+      {
+        "requirement": "DATA-04 rich persistent catalog columns",
+        "status": "IMPLEMENTED_AND_REGRESSION_TESTED",
+        "detail": "Atomic persisted catalog includes path/type/dates/size/mtime, sourcehash, schema fingerprint, normalizationversion, row/contract counts, earliest/latest raw times, quality, audit time and optional mirror identity. Unknown fields stay null until bounded audit. Reuse requires exact source-root pair and normalization identity plus unchanged file size/mtime; binding still computes original SHA256."
+      },
+      {
+        "requirement": "APP-C02 vendor Greek unit evidence",
+        "status": "EXPLICIT_CONVERSION_AND_UNVERIFIED_LABELS_TESTED",
+        "detail": "Raw vendor Greeks are preserved. Separate normalized fields accept explicit delta decimal/percent, gamma per-dollar, theta per-day/ACT365-year, vega/rho/epsilon per-unit/per1percent, including explicit per-contract scale. Unknown higher-order/unit conventions remain unverified and are never guessed."
+      },
+      {
+        "requirement": "Historical archive and model profile production qualification",
+        "status": "EXTERNAL_INPUT_AND_MEASUREMENT_BLOCKERS",
+        "detail": "Real sample contains unverified IV units/contract metadata and duplicate OI partitions. Historical rate/carry/fixing records and a qualified production price/hold/managed pack are not established by this data audit. Synthetic tests and one-day performance evidence do not qualify the complete archive."
+      }
+    ]
+  },
+  "evidence_files": [
+    "docs/data-audit.json",
+    "docs/data-sample-audit.json",
+    "docs/data-performance.json",
+    "docs/data-catalog-review.json",
+    "docs/data-trade-performance.json",
+    "runtime/results/data-duplicate-partitions.json"
+  ]
+}

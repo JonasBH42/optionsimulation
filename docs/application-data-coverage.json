@@ -1,0 +1,96 @@
+{
+  "schema_version": 1,
+  "scope": "Explicit navigation from application/data clauses to scoped implementation and test evidence. No mapping certifies every sentence or a production release.",
+  "mappings": [
+    {
+      "requirements": ["DATA-01", "DATA-02", "DATA-03", "DATA-04", "DATA-05"],
+      "evidence": ["src/qqq_sim/data/catalog.py", "src/qqq_sim/data/audit.py", "tests/test_data_catalog_updates.py", "tests/test_data.py", "docs/data-audit.json", "docs/data-catalog-review.json"],
+      "scope": "Filename identities, bounded metadata/audit publication, duplicate detection, directory refresh and source revisions. Windows sharing/access retries preserve the prior atomic catalog and propagate persistent failures. The real archive audit is bounded; unknown metadata is not certified."
+    },
+    {
+      "requirements": ["DATA-06"],
+      "evidence": ["src/qqq_sim/data/mirror.py", "tests/test_data_catalog_updates.py", "docs/data-contract.md"],
+      "scope": "Separate validated mirror publication and raw-hash/mapping invalidation. Optional mirrors do not alter source archives."
+    },
+    {
+      "requirements": ["APP-C01"],
+      "evidence": ["src/qqq_sim/config.py", "docs/account_coverage.json", "tests/test_account_broker.py"],
+      "scope": "Explicit conservative simulation profiles and component defaults. Exact historical broker rules, account parity, adjusted deliverables, portfolio margin and unsupported permissions remain distinct limitations."
+    },
+    {
+      "requirements": ["APP-C02"],
+      "evidence": ["docs/data-contract.md", "docs/data-traceability.json", "tests/test_data.py", "tests/test_data_edge_cases.py", "tests/test_data_catalog_updates.py", "tests/test_data_last_trade.py"],
+      "scope": "Causal canonicalization, immutable quote/trade records, explicit units, temporal indices, corrections and known-as-of references. Real archive IV units and deliverable evidence remain runtime inputs; ambiguous units do not become supported P50 inputs."
+    },
+    {
+      "requirements": ["APP-C03"],
+      "evidence": ["tests/test_calendar.py", "tests/test_replay_integration.py", "tests/test_lifecycle_integration.py", "src/qqq_sim/services/calendars.py"],
+      "scope": "Calendar scenarios and explicit session overrides, distinct option stop/fixing/replay boundaries, missing-slot handling and deterministic valid-prefix advances. Scenario schedules are not exchange-certified historical records."
+    },
+    {
+      "requirements": ["APP-C09", "APP-09", "OT-01", "OT-02"],
+      "evidence": ["tests/test_ui.py", "tests/test_ui_dpi.py", "tests/test_replay_integration.py", "tests/test_analysis_records.py", "src/qqq_sim/ui/chain.py", "src/qqq_sim/ui/main_window.py"],
+      "scope": "Synchronized Qt models, typed sorting, stale selection/state gating, queued inference, deduplicated requests, archive ACK retention and orderly shutdown. Screen-bound native frames, restored oversized layouts and scroll-reachable ticket/portfolio controls have explicit tests. These tests do not certify every display-scale or performance release gate."
+    },
+    {
+      "requirements": ["APP-C10"],
+      "evidence": ["tests/test_ui.py", "tests/test_data.py", "tests/test_data_catalog_updates.py", "src/qqq_sim/ui/chart.py", "src/qqq_sim/data/underlying.py", "src/qqq_sim/data/mirror.py", "docs/data-performance.json", "docs/data-trade-performance.json"],
+      "scope": "Visible-only chart chunks, causal aggregation, bounded reads and immutable byte-budget caches. Selected-session latency measurements do not establish full-archive p95 or child-process peak-memory acceptance."
+    },
+    {
+      "requirements": ["APP-C11", "OT-06"],
+      "evidence": ["tests/test_analysis_worker_recovery.py", "tests/test_analysis_pack_identity.py", "tests/test_reference_resources.py", "tests/test_ui.py", "src/qqq_sim/services/analysis.py", "src/qqq_sim/ui/worker.py"],
+      "scope": "Spawned isolated inference, worker restart, immutable manifest revision checks, bounded reference work and canceled-request archival. Full supported numerical query resource qualification remains a separate gate."
+    },
+    {
+      "requirements": ["APP-C12", "APP-06", "APP-11", "OT-10"],
+      "evidence": ["tests/test_storage_events.py", "tests/test_analysis_records.py", "tests/test_account_analysis_inputs.py", "tests/test_account_benchmarks.py", "tests/test_runtime_identity.py", "docs/analytic-records.md", "docs/runtime-identity.md"],
+      "scope": "Transactional economic history and immutable analytic inputs/results, pending/null reasons, exact archive identity across branches/copied sessions and unchanged economic versions. Initial benchmark inputs are committed with their campaign transaction. Source/lock/runtime identities are frozen and checked before restore; incompatible schema-v1 sessions retain a tested read-only raw export path without semantic migration."
+    },
+    {
+      "requirements": ["APP-C13", "APP-15", "OT-09"],
+      "evidence": ["README.md", "packaging/pysidedeploy.spec", "requirements.lock", "docs/release-status.json", "runtime/results/release-manifest.json", "tests/test_analysis_worker_recovery.py", "runtime/results/desktop-shutdown-final/result.json"],
+      "scope": "Pinned development environment, deployment configuration and executed local smoke evidence. A separate clean Windows account without the build environment and the final packaged-source revision require their own recorded acceptance."
+    },
+    {
+      "requirements": ["APP-C14"],
+      "evidence": ["tests/test_data.py", "tests/test_calendar.py", "tests/test_replay_integration.py", "tests/test_account_broker.py", "tests/test_lifecycle_integration.py", "tests/test_ui.py", "docs/account_coverage.json", "docs/data-traceability.json"],
+      "scope": "Local timing, poisoning, calendar, fee, account, lifecycle, idempotency and UI fixture families. Mapping these files does not assert every A-O clause is independently accepted."
+    },
+    {
+      "requirements": ["OT-11", "OT-12"],
+      "evidence": ["runtime/results/query-benchmark.json", "runtime/results/dpi-source-100-final/result.json", "runtime/results/dpi-source-150-final/result.json", "runtime/results/dpi-source-200-final/result.json", "docs/release-status.json", "tests/test_ui.py", "tests/test_ui_dpi.py", "packaging/verify-clean-account.ps1", "docs/clean-account-verification.md"],
+      "scope": "Source-runtime Windows captures verify effective DPR1/1.5/2, native frame containment, scroll-reachable submission and ticket/account/risk/closed-state panels. Final compiled evidence remains separate. Unqualified-model abstention latency is not supported-probability latency, and developer-account checks/native-verifier refusal are not clean-account certification."
+    },
+    {
+      "prefixes": ["DT-"],
+      "evidence": ["docs/data-traceability.json", "tests/test_data.py", "tests/test_data_edge_cases.py"],
+      "scope": "Consult the per-DT scoped tests and limitations in the data report. Source-shaped synthetic tests and a bounded real audit do not establish complete archive qualification."
+    },
+    {
+      "requirements": ["DT-19", "DT-20"],
+      "evidence": ["tests/test_replay_integration.py", "tests/test_account_analysis_inputs.py", "tests/test_data_last_trade.py"],
+      "scope": "Event-phase boundaries, late/minute availability and equivalence of large versus small committed advances."
+    },
+    {
+      "prefixes": ["ID-"],
+      "evidence": ["docs/data-contract.md", "docs/account_coverage.json", "src/qqq_sim/serialization.py", "tests/test_analysis_records.py", "tests/test_account_broker.py"],
+      "scope": "Money/quantity signs, unit provenance, exact identities and null reasons are distributed across these contracts; each clause requires its own scoped verification."
+    },
+    {
+      "prefixes": ["EX-"],
+      "evidence": ["docs/account_coverage.json", "tests/test_account_broker.py", "tests/test_replay_integration.py", "tests/test_ui.py"],
+      "scope": "Concrete economic and workflow example families. A source/example mapping is not an independent pass of all numerical and lifecycle prerequisites."
+    },
+    {
+      "prefixes": ["PR-", "RES-", "DEC-", "INPUT-", "GAP-"],
+      "evidence": ["README.md", "docs/data-contract.md", "docs/account_coverage.json", "docs/risk_coverage.json", "docs/release-status.json"],
+      "scope": "Precedence, decisions and runtime-input declarations. Historical metadata and production qualification remain explicit; no file link is treated as resolution of an external-input or numerical gate."
+    },
+    {
+      "prefixes": ["P50-", "PT-"],
+      "evidence": ["docs/risk_coverage.json", "docs/risk_build_and_validation.md", "docs/features-contract.md", "tests/test_risk_feature_contract.py"],
+      "scope": "Risk reports distinguish implemented mechanics, scoped tests, conditional legacy features and incomplete numerical/production qualification. This mapping does not turn all mathematical tests into failures merely because a production pack is unavailable."
+    }
+  ]
+}

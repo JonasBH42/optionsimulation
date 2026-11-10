@@ -1,0 +1,158 @@
+{
+  "current_implementation_fingerprint": "eb746c4f40f424dbd578f2c1bd08b2dcc396833ec3e29ffb49db71d11b9ae7c5",
+  "current_measurements": {
+    "production": {
+      "report": "runtime/builds/production_frozen_v6/build_report.json",
+      "status": "CHECKPOINTED",
+      "elapsed_seconds": 120.90599099999963,
+      "base_design_cases": 32768,
+      "separate_heldout_cases": 1000,
+      "accepted_price_cells": 0,
+      "excluded_price_cells": 7,
+      "pending_price_cells": 1593,
+      "actual_reference_labels": 0,
+      "resumed_pde_schedule_steps": 3818,
+      "stop": {
+        "details": {
+          "checkpoint": "D:\\optionsimulation\\runtime\\builds\\production_frozen_v6\\pipeline_checkpoint.json",
+          "stage": "B4"
+        },
+        "message": "RESOURCE_LIMIT",
+        "reason": "RESOURCE_LIMIT",
+        "status": "UNSUPPORTED"
+      },
+      "price_basis_stop": {
+        "cell_id": "7",
+        "details": {
+          "completed_schedule_steps": 10134,
+          "nodes": 25601,
+          "normalized_point": {
+            "a": 0.002,
+            "b": 0.02,
+            "right": "CALL",
+            "w": 0.01,
+            "x": -1.3862943611198906
+          },
+          "per_oracle_seconds": 119.63999999999942,
+          "requested_price_epsilon": 1e-10,
+          "resource": "normalized_pde",
+          "tau": 0.4167808219178082,
+          "time_scale": 2
+        },
+        "message": "Shared normalized PDE time-step budget reached",
+        "partial_pde_state_checkpointed": true,
+        "reason": "RESOURCE_LIMIT",
+        "status": "UNSUPPORTED",
+        "unfinished_single_pde_solve_restarts": false
+      },
+      "pack_path": "D:\\optionsimulation\\runtime\\model_packs\\production_frozen_v6\\8b4081bdc9ea"
+    },
+    "research": {
+      "report": "runtime/builds/research_frozen_v6/build_report.json",
+      "status": "RESEARCH_COMPLETE_UNQUALIFIED",
+      "elapsed_seconds": 123.11311080000087,
+      "reference_labels": 5,
+      "policy_pairs": 43,
+      "numeric_arrays": 58,
+      "pack_path": "D:\\optionsimulation\\runtime\\model_packs\\research_frozen_v6\\55880437bd1f",
+      "integrity": "PASS",
+      "qualification": false,
+      "hold_validation": {
+        "count": 1,
+        "maximum_absolute_error": 0.993327210882279,
+        "p50_absolute_error": 0.993327210882279,
+        "p95_absolute_error": 0.993327210882279,
+        "p99_absolute_error": 0.993327210882279,
+        "pass_fraction": 0.0,
+        "qualified": false,
+        "reference_uncertainty": 0.004009962734168504,
+        "tolerance": 0.01
+      },
+      "policy_validation": {
+        "count": 43,
+        "maximum_absolute_error": 0.024187734391952487,
+        "p50_absolute_error": 0.0007241999222261078,
+        "p95_absolute_error": 0.012835354783788347,
+        "p99_absolute_error": 0.022645698454055296,
+        "pass_fraction": 0.0,
+        "qualified": false,
+        "reference_uncertainty": 0.24494541822729865,
+        "tolerance": 0.02
+      },
+      "within_bin_validation": {
+        "independent_cases": 1,
+        "maximum_absolute_error_plus_reference_uncertainty": 0.9830143072512966,
+        "pass_fraction": 0.0,
+        "qualified": false,
+        "reason": "WITHIN_BIN_INDEPENDENT_CASES_INSUFFICIENT",
+        "sampled_deadlines": 12,
+        "sampling_uncertainty": "PER_CASE_BONFERRONI_WILSON_95_PERCENT_UNLESS_EXACT_DETERMINISTIC",
+        "singleton_only_cases": 0,
+        "tolerance": 0.01,
+        "total_cases": 1
+      }
+    },
+    "strict_reference": {
+      "report": "runtime/risk_validation/nontrivial_path_domain_v5_reference.json",
+      "status": "UNSUPPORTED",
+      "reason": "RESOURCE_LIMIT",
+      "elapsed_seconds": 364.1720000000023,
+      "production_paths": 200000,
+      "headline": null,
+      "details": {
+        "estimate": "TWELVE_FLOAT64_DENSE_ARRAYS_PLUS_LINEAR_WORKSPACE_EXCLUDES_INTERPRETER",
+        "estimated_additional_peak_bytes": 15734374752,
+        "memory_budget_bytes": 8589934592,
+        "nodes": 12801,
+        "resource": "memory"
+      },
+      "source_interpretation": "Numerical kernel unchanged; final source adds bounded Windows atomic-checkpoint retries."
+    }
+  },
+  "implemented": {
+    "P50-M02_M07": "Frozen original target/cash; exact broker-account proposal checks; bounded candidate generator including compulsory paired reductions, protective long hedges, butterfly diagonal combinations, quota redistribution and full source/poststate identities; authoritative synthetic ledger execution.",
+    "P50-M08_M14": "Converged Gauss-Hermite targets, actual eligible-minute backward layers with frozen previous-layer network, learned universe encoder, float64 streamed torch fitting, separately sampled independent policy evaluation, mandatory last-opportunity liquidation, expanded offline finite control benchmark/regret machinery, 256-action NumPy batches and explicit-candidate envelopes.",
+    "P50-M09_M10": "Versioned exact position/account/action encodings, strike kinks and explicitly masked out-of-support IV shocks; learned opportunity-set encoder; frozen-grid first-hit labels plus 32 sampled existing within-bin deadlines; independent-path-weighted likelihood, within-bin MSE and survivor-weighted terminal companion loss; saved-byte within-bin and edge-family validation gates.",
+    "P50-M11": "Calibration-only deterministic 8192-state augmentation with at most six cycles; 1000 separately reserved validation-only narrow/tangent/disjoint/near-expiry/low-budget cases; executable recursive cycles; hashed reference/control labels; safe numeric epoch/scaler/Adam/best-weight/shuffle recovery; semantic checkpoint compatibility and disk reserve guards.",
+    "P50-M15": "Separate conditional path-IV, leg-IV, skew, spread, extra-latency, failed-first-liquidation and partial-ratio-fill rollouts. Assignment notice/delivery stresses retain exact risk results and explicit unavailable probability when outside the forecast lifecycle model; no scenario weights are invented.",
+    "P50-M17_M19": "Immutable safe arrays and SHA receipts, source/config-compatible resumption, fresh-process saved-array validation and atomic publication; saved balanced decision tree; adaptive Chebyshev cells; actual normalized shared PDE grids across x nodes with independent time/space/domain/interpolation tests, hashed complete-refinement and partial-time-step recovery, bounded RAM and OS writer locks; sampled financial inequalities and exact midplane residual split-axis rule; independent Greeks at625 grid plus256 random points and cross-face consistency.",
+    "P50-M20": "Full up-to-eight-expiry term surfaces and 512-contract admission audit, causal ATM anchor, actual broker-executed 0-3 adjustment trajectories, flat/reentry/stopped state classes and frozen original economics.",
+    "P50-R02_R06_R08": "Frozen validated jobs; exact Decimal payoff and target; UTC microsecond clocks; explicit rate/q/path-IV inputs; European spot/forward and deterministic American formulas.",
+    "P50-R09_R12": "American monotone finite-difference LCP with policy iteration, lower/upper boundary brackets, negative-rate handling, independent spatial/temporal refinement, CRR comparator, offline IV inversion, individual quote repricing and causal validated local-ATM path-IV fallback.",
+    "P50-R13_R19": "European analytic Lipschitz subdivision and complete interval topology; exact terminal intervals; shared GBM paths; semantic spawned-process shards and hashed checkpoints; 8-MiB-LRU disk region storage; coupled grids, Wilson errors, actual domain-exit rejection, paired region disagreement checks; independent recursion on a separate path-law domain with analytic exit bound, explicit 0/1 tail mass, declared-node and dense-memory caps, per-step probability preservation checks and retained partial refinement evidence.",
+    "P50-R20_R21": "Typed numerical/resource failures and analytical/finite-tree fixture corpus. Strict reference can qualify passing individual jobs; nonconverged jobs return null headline probability.",
+    "PT01_PT14": "Implemented reference machinery with deterministic, analytical, topology, time, RNG and numerical regression tests; broad American portfolio qualification is not established.",
+    "PT15_PT18_PT29_PT30": "Safe loader and zero-offline-import online boundary implemented. Fixture and trained research packs remain explicitly unqualified; no production HOLD pack has passed the requested broad accuracy gates.",
+    "PT19_PT28": "Managed mechanics, accounting/cap certificates, action construction, policy training, independent evaluation, flat/reentry and roll identity tests implemented. No production managed/envelope domain is qualified."
+  },
+  "measured_artifacts": {
+    "american_reference_attempt": "runtime/risk_validation/american_vertical_reference.json",
+    "analytical_fixtures": "runtime/model_packs/validation_fixture/reference_fixtures.json",
+    "current_nontrivial_strict_reference": "runtime/risk_validation/nontrivial_path_domain_v5_reference.json",
+    "expanded_control_search_regression": "tests/test_action_generator.py",
+    "final_measured_status": "runtime/risk_validation/final_risk_status.json",
+    "nontrivial_fine_grid_independent_failure_historic": "runtime/risk_validation/nontrivial_fine_grid_cached_reference.json",
+    "observed_reference_memory": "runtime/risk_validation/reference_v5_memory.jsonl",
+    "price_cell_financial_checks": "tests/test_price_cell_financial_checks.py",
+    "production_build_attempt": "runtime/builds/production_frozen_v6/build_report.json",
+    "qualified_individual_reference": "runtime/risk_validation/qualified_far_otm_reference.json",
+    "research_pipeline": "runtime/builds/research_frozen_v6/build_report.json",
+    "saved_price_tree": "tests/test_price_tree.py",
+    "shared_normalized_grid_recovery": "tests/test_risk_grid_cache.py",
+    "streamed_training_and_cycle_regressions": "tests/test_risk_training_store.py and tests/test_risk_build_cycles.py",
+    "windows_atomic_checkpoint_recovery": "tests/test_atomic_checkpoint_io.py"
+  },
+  "reference_specification": "qqq_simulator_5_part_implementation_plan_complete.txt",
+  "release_claim": "No broad production P50/managed-model completion, broker parity, exact historical fills or unconditional real-world loss guarantee is claimed.",
+  "schema_version": 1,
+  "status": "IMPLEMENTED_RESEARCH_SYSTEM_NOT_FULL_SPECIFICATION_RELEASE",
+  "unimplemented_or_not_complete": [
+    "P50-R07 optional European-index constrained parity/forward identification is not implemented; QQQ uses explicit as-of rate and continuous-q inputs.",
+    "Full 30-day control-layer training, nontrivial stronger-control regret measurements, 200 independent cases per admitted regime and full-size memory/runtime qualification are not completed.",
+    "General American price/Greek/inverse-IV calibration remains unqualified; the representative American vertical failed strict numerical convergence and correctly returned a null headline.",
+    "Closing singleton/tangent events and finite islands unresolved by the declared monitoring grid abstain with explicit topology reasons; no continuous bridge result is invented from an endpoint-monitoring plateau. Dense independent recursion has an explicit temporary-memory guard; the nontrivial five-minute reference failed independent spatial convergence despite passing fine monitoring and completing200000 paths.",
+    "Assignment and delayed-notice conditional probability remains unavailable when the forecast would require an unsupported physical-delivery transition; P50-M15 permits retaining stressed risk results separately.",
+    "Neural training resumes completed epochs and scaler blocks; interrupted partial minibatches replay deterministically from the preceding complete epoch. Full policy rollouts resume completed paths. Full-size recovery performance remains unmeasured.",
+    "Production model training/calibration over all 32768 accepted states, 200 independent cases per admitted regime, independent returned-policy rollouts and all numerical/performance release gates have not completed."
+  ]
+}

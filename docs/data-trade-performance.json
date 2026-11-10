@@ -1,0 +1,86 @@
+{
+  "scope": "Bounded actual-session observations including causal trade corrections/last marks; no claimed p95 benchmark or full archive audit",
+  "timings": [
+    {
+      "at": "2012-06-01T10:01:00-04:00",
+      "seconds": 0.8579347999984748,
+      "spot": 61.18,
+      "contracts": 40,
+      "last_trade_count": 12,
+      "last_trade_quality_counts": {
+        "UNKNOWN_TRADE_CONDITION": 12,
+        "TIMESTAMP_PRECISION_CONFLICT": 12
+      },
+      "diagnostic_codes": [
+        "DUPLICATE_LOGICAL_PARTITION"
+      ],
+      "cache_bytes": 47428385
+    },
+    {
+      "at": "2012-06-01T10:02:00-04:00",
+      "seconds": 0.10104429999773856,
+      "spot": 61.15,
+      "contracts": 40,
+      "last_trade_count": 12,
+      "last_trade_quality_counts": {
+        "UNKNOWN_TRADE_CONDITION": 12,
+        "TIMESTAMP_PRECISION_CONFLICT": 12
+      },
+      "diagnostic_codes": [
+        "DUPLICATE_LOGICAL_PARTITION"
+      ],
+      "cache_bytes": 47674534
+    },
+    {
+      "at": "2012-06-01T10:03:00-04:00",
+      "seconds": 0.10327549999783514,
+      "spot": 61.1391,
+      "contracts": 40,
+      "last_trade_count": 12,
+      "last_trade_quality_counts": {
+        "UNKNOWN_TRADE_CONDITION": 12,
+        "TIMESTAMP_PRECISION_CONFLICT": 12
+      },
+      "diagnostic_codes": [
+        "DUPLICATE_LOGICAL_PARTITION"
+      ],
+      "cache_bytes": 47906122
+    },
+    {
+      "at": "2012-06-01T15:58:00-04:00",
+      "seconds": 2.5616750000008324,
+      "spot": 60.46,
+      "contracts": 40,
+      "last_trade_count": 15,
+      "last_trade_quality_counts": {
+        "UNKNOWN_TRADE_CONDITION": 15,
+        "TIMESTAMP_PRECISION_CONFLICT": 15
+      },
+      "diagnostic_codes": [
+        "DUPLICATE_LOGICAL_PARTITION"
+      ],
+      "cache_bytes": 127381168
+    },
+    {
+      "at": "2012-06-01T15:59:00-04:00",
+      "seconds": 0.7258467999999993,
+      "spot": 60.44,
+      "contracts": 40,
+      "last_trade_count": 15,
+      "last_trade_quality_counts": {
+        "UNKNOWN_TRADE_CONDITION": 15,
+        "TIMESTAMP_PRECISION_CONFLICT": 15
+      },
+      "diagnostic_codes": [
+        "DUPLICATE_LOGICAL_PARTITION"
+      ],
+      "cache_bytes": 127603119
+    }
+  ],
+  "source_hashes_unchanged": true,
+  "source_hashes": {
+    "D:\\QQQ\\OHLCV_daily\\QQQ_1m_2012-06-01.parquet": "eeb04fb638159200d9dbb1ce3ec7b152d62e82cbe9ceb4e9a3417a2808e9baa2",
+    "D:\\QQQ\\raw_theta\\greeks\\greeks_20120601_exp=2012-06-01.csv.gz": "f2cca61e58da6d5a89c240ac0bbeb4426beb7411b20a858814cf7b06e5f668d4",
+    "D:\\QQQ\\raw_theta\\trades\\trades_20120601_exp=2012-06-01.csv.gz": "1c7bafbd5e3ab643a95b3121adf90e9abdbe4eda6cb8df1cae59377cce6691bc"
+  }
+}

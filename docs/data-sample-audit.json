@@ -1,0 +1,251 @@
+{
+  "schema_version": 1,
+  "day": "2012-06-01",
+  "calendar": {
+    "local_date": "2012-06-01",
+    "exchange_open": "2012-06-01T09:30:00-04:00",
+    "underlying_close": "2012-06-01T16:00:00-04:00",
+    "option_close": "2012-06-01T16:15:00-04:00",
+    "fixing_at": null,
+    "exercise_instruction_cutoff": null,
+    "settlement_business_day": true,
+    "status": "OPEN",
+    "early_close": false,
+    "profile_id": "STANDARD_US_CALENDAR_SCENARIO_V1",
+    "scenario_flag": true
+  },
+  "status": "PARTIAL",
+  "sources": [
+    {
+      "key": {
+        "data_type": "underlying",
+        "session_date": "2012-06-01",
+        "expiration": null
+      },
+      "path": "D:\\QQQ\\OHLCV_daily\\QQQ_1m_2012-06-01.parquet",
+      "size": 22305,
+      "mtime_ns": 1761662470677446100,
+      "sha256": "eeb04fb638159200d9dbb1ce3ec7b152d62e82cbe9ceb4e9a3417a2808e9baa2",
+      "schema": "regular_time: string\nopen: double\nclose: double\nvolume: double\nhigh: double\nlow: double\ndatetime: string\n-- schema metadata --\npandas: '{\"index_columns\": [], \"column_indexes\": [], \"columns\": [{\"name\":' + 864",
+      "raw_row_count": 596
+    },
+    {
+      "key": {
+        "data_type": "greeks",
+        "session_date": "2012-06-01",
+        "expiration": "2012-06-01"
+      },
+      "path": "D:\\QQQ\\raw_theta\\greeks\\greeks_20120601_exp=2012-06-01.csv.gz",
+      "size": 403533,
+      "mtime_ns": 1760462135969175900,
+      "sha256": "f2cca61e58da6d5a89c240ac0bbeb4426beb7411b20a858814cf7b06e5f668d4",
+      "schema": [
+        "symbol",
+        "expiration",
+        "strike",
+        "right",
+        "timestamp",
+        "bid",
+        "ask",
+        "delta",
+        "theta",
+        "vega",
+        "rho",
+        "epsilon",
+        "lambda",
+        "gamma",
+        "vanna",
+        "charm",
+        "vomma",
+        "veta",
+        "vera",
+        "speed",
+        "zomma",
+        "color",
+        "ultima",
+        "d1",
+        "d2",
+        "dual_delta",
+        "dual_gamma",
+        "implied_vol",
+        "iv_error",
+        "underlying_timestamp",
+        "underlying_price"
+      ],
+      "aliases": {
+        "timestamp": "timestamp",
+        "strike": "strike",
+        "right": "right",
+        "bid": "bid",
+        "ask": "ask",
+        "implied_vol": "implied_vol",
+        "underlying_price": "underlying_price",
+        "expiration": "expiration"
+      },
+      "raw_row_count": 15640,
+      "iv_unit": null,
+      "strike_divisor": null
+    },
+    {
+      "key": {
+        "data_type": "ohlcv",
+        "session_date": "2012-06-01",
+        "expiration": "2012-06-01"
+      },
+      "path": "D:\\QQQ\\raw_theta\\ohlcv\\ohlcv_20120601_exp=2012-06-01.csv.gz",
+      "size": 13057,
+      "mtime_ns": 1760462138093339600,
+      "sha256": "2d3e3b61869ffc89a4edb85b9e4a06ead99cd7faccd0eb7656195f2f6ad63c66",
+      "schema": [
+        "symbol",
+        "expiration",
+        "strike",
+        "right",
+        "timestamp",
+        "open",
+        "high",
+        "low",
+        "close",
+        "volume"
+      ],
+      "aliases": {
+        "timestamp": "timestamp",
+        "strike": "strike",
+        "right": "right",
+        "expiration": "expiration"
+      },
+      "raw_row_count": 1045,
+      "iv_unit": null,
+      "strike_divisor": null
+    },
+    {
+      "key": {
+        "data_type": "trades",
+        "session_date": "2012-06-01",
+        "expiration": "2012-06-01"
+      },
+      "path": "D:\\QQQ\\raw_theta\\trades\\trades_20120601_exp=2012-06-01.csv.gz",
+      "size": 56794,
+      "mtime_ns": 1760462137993513200,
+      "sha256": "1c7bafbd5e3ab643a95b3121adf90e9abdbe4eda6cb8df1cae59377cce6691bc",
+      "schema": [
+        "symbol",
+        "expiration",
+        "strike",
+        "right",
+        "timestamp",
+        "sequence",
+        "ext_condition1",
+        "ext_condition2",
+        "ext_condition3",
+        "ext_condition4",
+        "condition",
+        "size",
+        "exchange",
+        "price"
+      ],
+      "aliases": {
+        "timestamp": "timestamp",
+        "strike": "strike",
+        "right": "right",
+        "last": "price",
+        "expiration": "expiration",
+        "sequence": "sequence"
+      },
+      "raw_row_count": 3718,
+      "iv_unit": null,
+      "strike_divisor": null
+    },
+    {
+      "key": {
+        "data_type": "oi_before",
+        "session_date": "2012-06-01",
+        "expiration": "2012-06-01"
+      },
+      "path": "D:\\QQQ\\raw_theta\\oi_before\\oi_20120601_exp=2012-06-01.csv.gz",
+      "size": 327,
+      "mtime_ns": 1761495314645660100,
+      "sha256": "9d8350a864aaefc4a190b3b2baf2d85ae8960661df678aee2ed53015a77e4eaa"
+    },
+    {
+      "key": {
+        "data_type": "oi_before",
+        "session_date": "2012-06-01",
+        "expiration": "2012-06-01"
+      },
+      "path": "D:\\QQQ\\raw_theta\\oi_before\\oi_eod_20120601_exp=2012-06-01.csv.gz",
+      "size": 268,
+      "mtime_ns": 1760462137166585900,
+      "sha256": "c66887f1581bff73e215b62c3d4d6ff45b15b3fe55807710c0548e0cde516341"
+    },
+    {
+      "key": {
+        "data_type": "oi_before",
+        "session_date": "2012-06-01",
+        "expiration": "2012-06-01"
+      },
+      "path": "D:\\QQQ\\raw_theta\\oi_before\\oi_prev_20120601_exp=2012-06-01.csv.gz",
+      "size": 338,
+      "mtime_ns": 1760462137032330900,
+      "sha256": "858d3533f5d85f0805be778b1a545b67bead1b9ea5d1bfa404d3563bab380918"
+    },
+    {
+      "key": {
+        "data_type": "oi",
+        "session_date": "2012-06-01",
+        "expiration": "2012-06-01"
+      },
+      "path": "D:\\QQQ\\raw_theta\\oi\\oi_20120601_exp=2012-06-01.csv.gz",
+      "size": 327,
+      "mtime_ns": 1761495434414377700,
+      "sha256": "09b81a527cca70788c045d7895f036439f59177371f91e93bd4f5febaa01dcba",
+      "schema": [
+        "symbol",
+        "expiration",
+        "strike",
+        "right",
+        "timestamp",
+        "open_interest"
+      ],
+      "aliases": {
+        "timestamp": "timestamp",
+        "strike": "strike",
+        "right": "right",
+        "open_interest": "open_interest",
+        "expiration": "expiration"
+      },
+      "raw_row_count": 23,
+      "iv_unit": null,
+      "strike_divisor": null
+    }
+  ],
+  "diagnostics": [
+    {
+      "code": "DUPLICATE_LOGICAL_PARTITION",
+      "message": "DUPLICATE_LOGICAL_PARTITION: PartitionKey(data_type='oi_before', session_date=datetime.date(2012, 6, 1), expiration=datetime.date(2012, 6, 1))",
+      "path": "D:\\QQQ\\raw_theta\\oi_before\\oi_20120601_exp=2012-06-01.csv.gz"
+    },
+    {
+      "code": "DUPLICATE_LOGICAL_PARTITION",
+      "message": "DUPLICATE_LOGICAL_PARTITION: PartitionKey(data_type='oi_before', session_date=datetime.date(2012, 6, 1), expiration=datetime.date(2012, 6, 1))",
+      "path": "D:\\QQQ\\raw_theta\\oi_before\\oi_eod_20120601_exp=2012-06-01.csv.gz"
+    },
+    {
+      "code": "DUPLICATE_LOGICAL_PARTITION",
+      "message": "DUPLICATE_LOGICAL_PARTITION: PartitionKey(data_type='oi_before', session_date=datetime.date(2012, 6, 1), expiration=datetime.date(2012, 6, 1))",
+      "path": "D:\\QQQ\\raw_theta\\oi_before\\oi_prev_20120601_exp=2012-06-01.csv.gz"
+    }
+  ],
+  "coverage": {
+    "expected_slots": 390,
+    "valid_rth_rows": 390,
+    "boundary_rows": 1,
+    "missing_labels": [],
+    "first_valid": "2012-06-01T09:30:00-04:00",
+    "last_valid": "2012-06-01T15:59:00-04:00"
+  },
+  "diagnostic_counts": {
+    "DUPLICATE_LOGICAL_PARTITION": 3
+  },
+  "scope": "One selected session; no repair, acquisition, synthetic fallback, or historical rule certification."
+}

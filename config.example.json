@@ -1,0 +1,17 @@
+{
+  "schema_version": 1,
+  "underlying_root": "D:\\QQQ\\OHLCV_daily",
+  "options_root": "D:\\QQQ\\raw_theta",
+  "runtime_root": "runtime",
+  "pack_path": null,
+  "normalization_path": null,
+  "parameters_path": null,
+  "calendar_path": null,
+  "initial_cash": "5000.00",
+  "bp_cap": "5000.00",
+  "loss_cap": "1000.00",
+  "session_loss_cap": "1000.00",
+  "rule_mode": "fixed_rules_counterfactual",
+  "operational_model": "SIMULTANEOUS_DELIVERY_HEDGE_V1",
+  "strict": true
+}

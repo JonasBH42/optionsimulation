@@ -1,0 +1,101 @@
+{
+  "claim": "Working application workflows, compiled delivery, tests and research artifacts do not certify the entire specification or production probability accuracy. Close gates only with executed evidence for the relevant revision.",
+  "entire_specification_completed": false,
+  "evidence": {
+    "archive_audit": "docs/data-audit.json",
+    "archive_performance": "docs/data-performance.json",
+    "clean_account_instructions": "docs/clean-account-verification.md",
+    "compiled_fixture_publication": "runtime/results/compiled-fixture-build.json",
+    "compiled_sources": "runtime/results/build-source-manifest.json",
+    "cross_runtime_restore": "runtime/results/cross-runtime/result.json",
+    "dependency_review": "packaging/LICENSE_REVIEW.md",
+    "dependency_sources": "packaging/third_party_sources/manifest.json",
+    "environment_sources_and_test_summary": "runtime/results/release-manifest.json",
+    "native_standalone": "runtime/results/windows-standalone-smoke-windows.json",
+    "native_verifier_same_account": "runtime/results/clean-account/final-same-account/result.json",
+    "offscreen_standalone": "runtime/results/windows-standalone-smoke-offscreen.json",
+    "portable_inventory": "dist/QQQSimulator.dist/artifact-manifest.json",
+    "portable_inventory_sha256": "dist/QQQSimulator.dist/artifact-manifest.sha256",
+    "requirements": "docs/requirements.json",
+    "risk_build_and_resume": "docs/risk_build_and_validation.md",
+    "risk_status": "runtime/risk_validation/final_risk_status.json",
+    "tests": "runtime/results/tests.xml",
+    "visual_review": "runtime/results/visual-review.json",
+    "windows_build_log": "runtime/results/windows-build-final.log"
+  },
+  "handoff_commands_from_project_root": {
+    "activate": ".\\.venv\\Scripts\\Activate.ps1",
+    "application": ".\\launch.ps1",
+    "production_resume": ".\\launch.ps1 build-model --build-config runtime/risk_validation/production_frozen_v6_config.json",
+    "read_only_saved_session_export": ".\\launch.ps1 export-saved --session SESSION_ID --output runtime/results/original-session.json",
+    "source_audit": ".\\launch.ps1 audit-data --output runtime/results/data-audit.json",
+    "synthetic_demo": ".\\launch.ps1 --demo"
+  },
+  "implemented_workflows": [
+    "Read-only QQQ catalog and causal snapshots with duplicate/missing-data diagnostics",
+    "Qt chart, option chain, draft ticket, portfolio/account, history and diagnostics",
+    "Natural-side later-event simulated fills, reservations, exact fees and FIFO ledger",
+    "Fixed campaign targets, cumulative risk, physical-delivery scenarios and stock reductions",
+    "Atomic persistence, recovery, immutable implementation/input identities, research branches and frozen exports",
+    "First-launch checks and explicit setup guidance with a synthetic demonstration path",
+    "Explicit mathematical reference, resumable offline research and qualification-gated fast runtime"
+  ],
+  "outstanding_release_gates": [
+    "Qualified general American price, Greek and inverse-IV basis coverage",
+    "Full production reference labeling and HOLD/managed training",
+    "At least 200 independent calibration and validation cases per admitted regime and required HOLD/within-bin/managed accuracy, stress and control gates",
+    "Strict nontrivial reference independent-grid convergence within declared hardware budgets",
+    "Supported-domain probability/envelope/proposal latency and aggregate memory qualification",
+    "Separate clean Windows account validation without the development environment"
+  ],
+  "production_probability_qualified": false,
+  "project_status": "APPLICATION_IMPLEMENTED_RELEASE_QUALIFICATION_INCOMPLETE",
+  "real_input_limitations": [
+    "Archive duplicate logical partitions remain immutable and explicitly diagnosed",
+    "Historical trading/P50 needs verified contract metadata and known-as-of rate/carry/IV/fixing records",
+    "Included calendar and fee profiles are explicit simulation scenarios/counterfactuals, not broker or exchange historical certification"
+  ],
+  "runtime": {
+    "external_market_sources": "READ_ONLY",
+    "portable_scope": "Replay, inference, explicit reference, validation and fixture publication; Torch training uses the project .venv",
+    "python": "3.12.16 64-bit",
+    "system_python_changed": false,
+    "virtual_environment": "D:\\optionsimulation\\.venv",
+    "write_boundary": "D:\\optionsimulation"
+  },
+  "schema_version": 1,
+  "scientific_status": {
+    "production": {
+      "accepted_price_cells": 0,
+      "actual_reference_labels": 0,
+      "interpretation": "No production training stage has passed; saved PDE work is resumable without relaxing accuracy gates",
+      "qualified": false,
+      "report": "runtime/builds/production_frozen_v6/build_report.json",
+      "status": "CHECKPOINTED_RESOURCE_LIMIT"
+    },
+    "research": {
+      "integrity": "PASS",
+      "interpretation": "Saved-array integrity and an executable research pipeline do not establish scientific accuracy; HOLD, within-bin and managed qualification gates failed",
+      "pack": "runtime/model_packs/research_frozen_v6/55880437bd1f",
+      "qualified": false,
+      "report": "runtime/builds/research_frozen_v6/build_report.json",
+      "status": "RESEARCH_COMPLETE_UNQUALIFIED"
+    },
+    "source": "runtime/risk_validation/final_risk_status.json",
+    "strict_nontrivial_reference": {
+      "headline": null,
+      "interpretation": "Independent spatial-recursion convergence remained unresolved; the next dense refinement exceeded the declared memory budget",
+      "production_paths": 200000,
+      "reason": "RESOURCE_LIMIT",
+      "report": "runtime/risk_validation/nontrivial_path_domain_v5_reference.json",
+      "status": "UNSUPPORTED"
+    }
+  },
+  "verification_status": {
+    "final_build_acceptance": "PASS: matching native/offscreen executable SHA-256 and build identity; effective DPR1/1.5/2 frames fit; ticket/account/risk/closed-state captures reviewed; cross-runtime session restore passes",
+    "same_account_diagnostics_are_separate_account_evidence": false,
+    "separate_clean_windows_account": "NOT_RUN",
+    "tests_and_workflows": "437 tests passed, zero failures/errors/skips; native/offscreen workflows passed for final source identity",
+    "transient_counts_and_build_ids": "Read current evidence files; not duplicated as final claims here"
+  }
+}
