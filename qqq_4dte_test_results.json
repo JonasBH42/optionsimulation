@@ -1,0 +1,10 @@
+{
+  "coverage": "Core source/identity/clock/missingness/label/numerical/validation/reproducibility tests. Optional path, account, execution, cash-dividend pricing and universal IV-domain validation remain unsupported; no test report claims those modules are released.",
+  "engine_sha256": "5560f5ab7476ea9412e1d85af3edc078248fe52281794913ee34f393761e720f",
+  "errors": 0,
+  "failures": 0,
+  "namespace": "TEST_FIXTURE_ONLY",
+  "success": true,
+  "test_sha256": "c196ab2f5e639343449437e2aca9a77ba340391b60095d4b96a49e9509494057",
+  "tests_run": 50
+}

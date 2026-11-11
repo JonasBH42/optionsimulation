@@ -143,12 +143,20 @@ def test_step_progress_keeps_diagnostics_at_displayed_state(qtbot,tmp_path,monke
         assert "Display and diagnostics:" in window.statusBar().currentMessage()
         assert json.loads(window.diagnostics.toPlainText())["decision_at"]==displayed.decision_at.isoformat()
         window.pause()
-        assert "Stopping after the current minute" in window.statusBar().currentMessage()
+        assert "Stopping after the current batch" in window.statusBar().currentMessage()
         release.set()
         qtbot.waitUntil(lambda:not window.busy,timeout=10000)
-        assert window.bundle.status=="CANCELED"
-        assert window.bundle.decision_at==displayed.decision_at+timedelta(minutes=1)
+        assert window.bundle.status=="CANCELED", window.bundle.reason
+        assert displayed.decision_at < window.bundle.decision_at <= displayed.decision_at+timedelta(minutes=2)
+        assert window.bundle.snapshot.asof==window.bundle.decision_at
         assert json.loads(window.diagnostics.toPlainText())["decision_at"]==window.bundle.decision_at.isoformat()
+        from qqq_sim.replay.controller import ReplayController
+        restored=ReplayController.restore(config,window.bundle.session_id)
+        try:
+            assert restored.decision_at==window.bundle.decision_at
+            assert restored.bundle().account==window.bundle.account
+        finally:
+            restored.close()
     finally:
         release.set()
         window.close()

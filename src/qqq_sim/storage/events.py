@@ -1,6 +1,7 @@
 """SQLite FULL/WAL event store with idempotent commands and hash-checked recovery."""
 from __future__ import annotations
 from datetime import datetime,timezone
+from hashlib import sha256
 from pathlib import Path
 import json
 import sqlite3
@@ -8,6 +9,15 @@ import uuid
 from ..broker.models import BrokerError,canonical,fingerprint,encode
 
 SCHEMA_VERSION=1
+
+
+def _encoded_json(value):
+    """Canonical JSON for values already normalized by encode()."""
+    return json.dumps(value, sort_keys=True, separators=(',', ':'), allow_nan=False)
+
+
+def _encoded_fingerprint(value):
+    return sha256(_encoded_json(value).encode('utf-8')).hexdigest()
 
 
 def _writable(path):
@@ -109,16 +119,20 @@ class EventStore:
             if prior: previous_hash=prior['event_hash']
             else: previous_hash=db.execute('SELECT fork_state_hash FROM branches WHERE id=?',(branch_id,)).fetchone()[0]
             new_version=expected_version+1
-            state_record={'version':new_version,'state':encode(state)}
-            complete=list(events)+[{'event_id':f'commit:{command_id}','event_type':'STATE_COMMITTED','phase':'COMMIT',
-                                   'payload':state_record}]
+            encoded_state=encode(state)
+            state_record={'version':new_version,'state':encoded_state}
+            state_json=_encoded_json(state_record)
+            committed={'event_id':f'commit:{command_id}','event_type':'STATE_COMMITTED','phase':'COMMIT',
+                       'payload':state_record}
+            complete=list(events)+[committed]
             for event in complete:
                 source_id=event.get('event_id') or fingerprint(event)
                 event_id=branch_id+':'+source_id
                 # Repeated source events do not append or repost.
                 if db.execute('SELECT 1 FROM events WHERE event_id=?',(event_id,)).fetchone(): continue
                 sequence+=1
-                event_payload=event.get('payload',event)
+                event_payload=state_record if event is committed else encode(event.get('payload',event))
+                event_json=state_json if event is committed else _encoded_json(event_payload)
                 utc_ns=event.get('utc_ns')
                 if utc_ns is None:
                     at=event.get('at')
@@ -130,14 +144,14 @@ class EventStore:
                 phase=event.get('phase','ECONOMIC'); kind=event.get('event_type','EVENT')
                 hashed={'branch_id':branch_id,'sequence':sequence,'event_id':event_id,'utc_ns':utc_ns,
                         'phase':phase,'event_type':kind,'schema_version':SCHEMA_VERSION,'payload':event_payload,'previous_hash':previous_hash}
-                event_hash=fingerprint(hashed)
-                db.execute('INSERT INTO events VALUES(?,?,?,?,?,?,?,?,?,?)',(branch_id,sequence,event_id,utc_ns,phase,kind,SCHEMA_VERSION,canonical(event_payload),previous_hash,event_hash))
+                event_hash=_encoded_fingerprint(hashed)
+                db.execute('INSERT INTO events VALUES(?,?,?,?,?,?,?,?,?,?)',(branch_id,sequence,event_id,utc_ns,phase,kind,SCHEMA_VERSION,event_json,previous_hash,event_hash))
                 for index,posting in enumerate(event.get('postings',())):
                     db.execute('INSERT INTO cash_postings VALUES(?,?,?,?,?,?,?,?)',(event_id,index,posting.get('campaign_id'),posting.get('bucket','economic'),
                                posting.get('category',kind),posting['amount_cents'],posting.get('obligation_id'),posting.get('due_date')))
                 previous_hash=event_hash
-            db.execute('INSERT OR REPLACE INTO projections VALUES(?,?,?,?,?)',('state',branch_id,sequence,SCHEMA_VERSION,canonical(state_record)))
-            response={'version':new_version,'sequence':sequence,'result':encode(result),'state_hash':fingerprint(state)}
+            db.execute('INSERT OR REPLACE INTO projections VALUES(?,?,?,?,?)',('state',branch_id,sequence,SCHEMA_VERSION,state_json))
+            response={'version':new_version,'sequence':sequence,'result':encode(result),'state_hash':_encoded_fingerprint(encoded_state)}
             db.execute('INSERT INTO commands VALUES(?,?,?,?,?,?)',(branch_id,command_id,expected_version,canonical(payload),'COMPLETED',canonical(response)))
             if sequence//1000>current['sequence']//1000:
                 self._checkpoint_row(branch_id,sequence,state_record)

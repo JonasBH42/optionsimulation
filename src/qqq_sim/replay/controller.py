@@ -58,6 +58,16 @@ class ReplayController:
         self._pack_hash = self._read_pack_hash()
         self._reference_hashes = self._read_reference_hashes()
         self._implementation_identity = runtime_identity()
+        self._initial_replay_window = None
+        self._initial_replay_day = self.decision_at.date()
+        session = data.calendar.session(self.decision_at.date())
+        if session.status == "OPEN" and self.decision_at < session.underlying_close:
+            try:
+                # Build private source indexes during cold session loading. A
+                # requested skip then reuses them instead of paying this cost.
+                self._initial_replay_window = data.prepare_replay_window(self.decision_at, session.underlying_close)
+            except Exception:
+                pass  # Future source errors are discovered at their causal slot.
 
     @classmethod
     def create(cls, config, at=None):
@@ -104,7 +114,9 @@ class ReplayController:
         path = Path(session_id)
         if path.suffix != ".sqlite":
             path = Path(config.runtime_root)/"sessions"/session_id/"session.sqlite"
-        store = EventStore(writable_path(path))
+        from qqq_sim.services.session_upgrade import prepare_session_restore
+        path, branch_id = prepare_session_restore(writable_path(path), branch_id)
+        store = EventStore(path)
         try:
             return cls._restore_from_store(store,branch_id)
         except Exception:
@@ -261,6 +273,7 @@ class ReplayController:
             result=json.loads(row['result_json'])
         self.version = result["version"]
         self.snapshot = replace(self.snapshot, state_version=self.version)
+        return state
 
     def _expect(self, version):
         self._verify_reference_inputs()
@@ -426,7 +439,16 @@ class ReplayController:
                 except Exception:
                     pass  # Display notifications cannot interrupt a durable replay command.
             report_progress(force=True)
-            while self.decision_at < target:
+            fast = (getattr(self, "_fast_replay_enabled", True)
+                    and target > self.data.calendar.advance_trading_minutes(self.decision_at, 1))
+            if fast:
+                from .fast_forward import run_fast_advance
+                def batch_progress(count):
+                    nonlocal completed_slots
+                    completed_slots = count
+                    report_progress()
+                completed_slots = run_fast_advance(self, target, command_id, batch_progress)
+            while not fast and self.decision_at < target:
                 if self.cancel_requested.is_set():
                     self.status, self.reason = "CANCELED", {"reason":"USER_CANCELED"}
                     break
@@ -438,7 +460,7 @@ class ReplayController:
                     self._closed_period(next_instant)
                     self._bind_day(next_instant.date())
                     required=[contract for contract,q in self.broker.ledger.positions()]
-                    required.extend(leg.contract for order in self.broker.orders.values() if order.status in ("WORKING","PARTIALLY_FILLED") for leg in order.draft.legs)
+                    required.extend(leg.contract for order in self.broker.orders.values() if order.status in ("WORKING","PARTIALLY_FILLED","DATA_BLOCKED") for leg in order.draft.legs)
                     gap = self.data.coverage_gap(self.decision_at,next_instant,required_contracts=required)
                     if gap:
                         raise DataError("DATA_GAP_BEFORE_TARGET", "Missing scheduled minute", at=gap[0], cause=gap[1])
@@ -480,9 +502,22 @@ class ReplayController:
             return self.bundle()
 
     def branch(self, sequence=None, reason="User research branch"):
-        frozen=self.store.restore(self.branch_id,through_sequence=sequence)
+        source_branch = self.branch_id
+        if sequence is not None:
+            # A copied upgrade retains the original prefix in ancestor branches.
+            # Resolve its sequence there before constructing a new current branch.
+            while True:
+                source = self.store.connection.execute("SELECT parent_id,fork_sequence FROM branches WHERE id=?",
+                                                       (source_branch,)).fetchone()
+                if not source or not source['parent_id'] or sequence >= source['fork_sequence']:
+                    break
+                source_branch = source['parent_id']
+        frozen=self.store.restore(source_branch,through_sequence=sequence)
         frozen_state=frozen['state']
-        verify_runtime_identity(frozen_state.get("implementation_identity"))
+        from qqq_sim.services.session_upgrade import is_upgradeable_identity, upgrade_legacy_branch
+        legacy = is_upgradeable_identity(frozen_state.get("implementation_identity"))
+        if not legacy:
+            verify_runtime_identity(frozen_state.get("implementation_identity"))
         selected_config=AppConfig(**frozen_state.get('config',asdict(self.config))).validate()
         from qqq_sim.services.lifecycle import LifecycleRegistry
         registry=LifecycleRegistry(selected_config.parameters_path)
@@ -502,14 +537,20 @@ class ReplayController:
             from qqq_sim.cli import make_data
             candidate_data=make_data(selected_config)
         self._verify_catalog_membership(candidate_data,frozen_state.get('data_revision',{}))
-        handle = self.store.branch(self.branch_id, asdict(selected_config), reason, fork_sequence=sequence)
-        restored = self.store.restore(handle["branch_id"])
+        if legacy:
+            restored = upgrade_legacy_branch(self.store, source_branch, sequence, reason)
+            handle = {'branch_id': restored['branch_id']}
+        else:
+            handle = self.store.branch(source_branch, asdict(selected_config), reason, fork_sequence=sequence)
+            restored = self.store.restore(handle["branch_id"])
         state = restored["state"]
         self.config=selected_config
         self._lifecycle_registry=registry
         self._pack_hash=state.get('pack_hash')
         self._reference_hashes=state.get('reference_input_hashes',self._read_reference_hashes())
         self.data=candidate_data
+        self._initial_replay_window = None
+        self._initial_replay_day = datetime.fromisoformat(state['decision_at']).date()
         self.branch_id, self.version = handle["branch_id"], restored["version"]
         self._rollback(state)
         self._restore_revision(state.get("data_revision",{}))

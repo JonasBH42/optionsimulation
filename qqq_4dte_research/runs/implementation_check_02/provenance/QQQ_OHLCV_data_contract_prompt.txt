@@ -1,0 +1,73 @@
+QQQ UNDERLYING OHLCV — CANONICAL DATA CONTRACT
+
+Use these rules whenever reading, researching, backtesting, replaying, validating, or extending the local QQQ underlying-price dataset. This dataset is the authoritative QQQ price source when options work is joined to it.
+
+SOURCE / LAYOUT
+- Authoritative root: D:\QQQ\OHLCV_daily
+- One Parquet file per trading session.
+- Exact canonical filename: QQQ_1m_YYYY-MM-DD.parquet
+- Canonical columns: regular_time, open, high, low, close, volume
+- regular_time is the preferred timestamp field. For compatible historical readers, accepted fallbacks are datetime, timestamp, time, date.
+- Index files by the date embedded in the filename. Scan the real directory rather than assuming a fixed date range.
+- More than one file for the same session date is an error. Missing/nonmatching sessions must be reported explicitly.
+- Treat source Parquet files as immutable. Do not overwrite or “fix” source data in-place during analysis.
+
+TIME / SESSION SEMANTICS
+- Market timezone: America/New_York.
+- Preserve Eastern wall-clock time; do not silently convert the trading clock to UTC.
+- If timestamps are timezone-aware, normalize them to New York time before removing timezone metadata for wall-clock joins. If naive, interpret them as New York time.
+- Canonical regular-session minute range: 09:30 through 15:59 ET, i.e. 09:30 <= t < 16:00.
+- A normal full session has 390 one-minute slots. Do not fabricate missing minutes simply to force 390 rows.
+- Sort strictly by timestamp after parsing.
+
+ROW VALIDATION
+For each source row:
+- timestamp must be valid and belong to the file/session date after New York normalization;
+- open/high/low/close must be finite;
+- volume must be finite and >= 0;
+- reject invalid candle geometry: high < low, high < max(open,close), or low > min(open,close);
+- reject duplicate timestamps within a session rather than silently keeping an arbitrary one;
+- exclude rows outside regular trading hours for RTH studies/replay;
+- canonical replay/production handling ignores volume == 0 rows. If a research question explicitly needs zero-volume placeholders, preserve them only as a separately declared alternative treatment.
+
+NO-LOOKAHEAD / AS-OF RULES
+- For a target/replay time T, filter source one-minute rows FIRST to timestamp <= T; only then aggregate, calculate indicators, features, realized returns, boundaries, or other derived values.
+- Future one-minute rows must never influence current OHLC, volume, VWAP, SMA/EMA, volatility, market state, or an options join.
+- Never backfill a missing minute from a future minute.
+- If an exact timestamp is unavailable and the task explicitly permits an as-of lookup, use only the latest prior valid row and expose its age. Otherwise mark it missing.
+- Weekend, holiday, absent, or invalid session dates are not automatically substituted with a neighboring day.
+
+AUTHORITATIVE-SPOT RULE FOR OPTIONS
+- D:\QQQ\OHLCV_daily is authoritative for QQQ underlying spot.
+- When joining to D:\QQQ\raw_theta, use the latest QQQ close that is legitimately revealed at the target time. Use this value for spot, ATM selection, moneyness, IV-boundary calculations, scenario starting spot, and underlying returns.
+- raw_theta fields such as underlying_price / underlying_timestamp may be retained for diagnostics but must not silently override this dataset.
+- Keep both datasets separate at rest and join them explicitly by New York session/time with no future join.
+
+AGGREGATION
+- Base data is one minute. Build higher timeframes from revealed 1-minute rows, with buckets anchored to the 09:30 session open.
+- For each aggregate bucket:
+  open   = first revealed 1m open
+  high   = max revealed 1m high
+  low    = min revealed 1m low
+  close  = latest revealed 1m close
+  volume = sum revealed 1m volume
+- The current higher-timeframe bar is partial until all of its source minutes are revealed; never insert future minutes to complete it.
+- Daily RTH bars, if derived, use only that session’s valid RTH rows.
+- Calculate indicators only after the required as-of filtering/aggregation. Warm-up history may be loaded, but it must also obey the target-time cutoff.
+
+ACCESS / PERFORMANCE
+- Scan/index filenames and metadata first; load only the sessions and columns required for the task.
+- Cache validated session frames when repeated access is expected, and invalidate caches when file size/mtime/fingerprint changes.
+- For large ranges, materialize only needed sessions/windows where possible rather than concatenating the entire archive unnecessarily.
+- Columnar readers such as DuckDB, PyArrow, or pandas are acceptable; implementation choice must not change the semantics above.
+- Automatically noticing newly added daily files is desirable; refresh the index when the directory changes.
+- Never replace missing production data with synthetic/demo prices unless the user explicitly requests a separate synthetic mode, and label that mode unmistakably.
+
+EXTENDING / REPAIRING THE DATASET
+- The historical project material establishes this local Parquet storage/access contract but does not establish a single canonical external vendor/downloader for D:\QQQ\OHLCV_daily. Do not invent one.
+- If explicitly asked to add/rebuild sessions from an external source, preserve the exact one-file-per-session naming, required OHLCV schema, 1-minute granularity, New York-time semantics, and validation rules above.
+- Validate any new session before it becomes part of the canonical directory; use atomic temp-file -> final-file replacement.
+- Never substitute ThetaData’s embedded option underlying reference as the mechanism for repairing this authoritative QQQ dataset unless the user explicitly changes the data-source policy.
+
+FINAL SAFETY RULE
+Any backtest, replay, or options study using this dataset must preserve: New York wall-clock timing, RTH filtering, data validation, immutable source files, explicit missing-data handling, and strict no-lookahead. These rules override convenience behavior in older scripts.

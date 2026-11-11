@@ -162,6 +162,10 @@ class HistoricalData:
             day += timedelta(days=1)
         return tuple(sorted(events, key=lambda event: event.key))
 
+    def prepare_replay_window(self, start: datetime, end: datetime, cancel=None):
+        from .replay_window import ReplayWindow
+        return ReplayWindow(self, start, end, cancel)
+
     def next_observed_bar(self, instant: datetime):
         instant = local_datetime(instant)
         day = instant.date()

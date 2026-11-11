@@ -172,15 +172,17 @@ def test_lost_commit_acknowledgment_recovers_committed_state_once(controller,mon
 
 
 def test_cancel_advance_preserves_committed_prefix_and_recovery_status(controller,monkeypatch):
-    c=controller; start=c.decision_at; commit=c._commit; slots=[]
-    def cancel_after_slot(command_id,payload):
+    c=controller; start=c.decision_at; commit=c._commit; batches=[]
+    monkeypatch.setattr('qqq_sim.replay.fast_forward.MAX_BATCH_SLOTS',2)
+    monkeypatch.setattr('qqq_sim.replay.fast_forward.BATCH_SECONDS',float('inf'))
+    def cancel_after_batch(command_id,payload):
         commit(command_id,payload)
-        if command_id.startswith('slot:'):
-            slots.append(command_id); c.cancel_requested.set()
-    monkeypatch.setattr(c,'_commit',cancel_after_slot)
+        if command_id.startswith('batch:'):
+            batches.append(command_id); c.cancel_requested.set()
+    monkeypatch.setattr(c,'_commit',cancel_after_batch)
     result=c.advance(minutes=5,command_id='canceled-long-advance')
-    assert result.status=='CANCELED' and len(slots)==1
-    assert c.decision_at==start+timedelta(minutes=1)
+    assert result.status=='CANCELED' and len(batches)==1
+    assert c.decision_at==start+timedelta(minutes=2)
     restored=ReplayController.restore(c.config,c.session_id)
     try:
         assert restored.status=='CANCELED' and restored.broker.to_dict()==c.broker.to_dict()

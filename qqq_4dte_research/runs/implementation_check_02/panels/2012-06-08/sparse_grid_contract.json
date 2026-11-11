@@ -1,0 +1,32 @@
+{
+  "cohort": {
+    "D0": "2012-06-04",
+    "T_E": null,
+    "boundary_status": "TERMINAL_REFERENCE_MISSING",
+    "calendar_version": "pandas_market_calendars:5.1.1:NASDAQ",
+    "cohort_definition": "CALENDAR_DATE_4",
+    "cohort_id": "CALENDAR_DATE_4:2012-06-08",
+    "eligible_status": "ELIGIBLE_ARCHIVE_DISCOVERED",
+    "exercise_instruction_boundary": null,
+    "expected_sessions": "[\"2012-06-04\",\"2012-06-05\",\"2012-06-06\",\"2012-06-07\",\"2012-06-08\"]",
+    "expiration_date": "2012-06-08",
+    "expiration_universe_status": "ARCHIVE_DISCOVERED",
+    "expiry_weekday": "Friday",
+    "initial_universe_status": "UNVERIFIED_LISTED_UNIVERSE",
+    "last_scheduled_rth_session": "2012-06-08",
+    "listed_contract_count": null,
+    "listed_quote_coverage": null,
+    "observed_sessions": "[\"2012-06-04\",\"2012-06-05\",\"2012-06-06\",\"2012-06-07\",\"2012-06-08\"]",
+    "official_last_option_trading_time": null,
+    "right_censored": false,
+    "scheduled_t0": "2012-06-04 09:31:00-04:00",
+    "terminal_status": "TERMINAL_REFERENCE_MISSING"
+  },
+  "contracts": "contract_master.parquet",
+  "grid": "chain_snapshots.parquet decision_time_ny",
+  "initial_spot": 60.6,
+  "late_appearance": "first_available_time >= scheduled_t0; inventory is retrospective, not an entry tradable universe.",
+  "missingness": "Absent contract/time key in lifecycle_observations is missing, never zero. Listed intervals use known_at and effective_time.",
+  "schema_version": "1.0",
+  "terminal_status": "TERMINAL_REFERENCE_MISSING"
+}

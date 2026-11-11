@@ -1,0 +1,161 @@
+{
+  "code_hash": "e222ab957f4cb00c5e9b399dbac08f114d6b2ed6d0083fed507fe0fe62480035",
+  "config": {
+    "clocks": {
+      "calendar": "NASDAQ",
+      "calendar_file": null,
+      "option_bar_evidence": null,
+      "option_bar_semantics": "REQUIRES_EVIDENCE",
+      "quote_timestamp_evidence": "SOURCE-OPTIONS as-of/revealed-minute contract and inspected one-minute Greeks records; source timestamp is used only as the record clock, not a verified original update clock.",
+      "quote_timestamp_semantics": "SNAPSHOT_RECORD_TIME",
+      "timezone": "America/New_York",
+      "underlying_bar_evidence": "User verified 2026-11-10: 09:30 summarizes 09:30-09:31 and is available at 09:31.",
+      "underlying_bar_semantics": "START_LABELED"
+    },
+    "cohort_definition": "CALENDAR_DATE_4",
+    "date_range": {
+      "end": "2012-06-08",
+      "start": "2012-06-08"
+    },
+    "execution_research": {
+      "enabled": false
+    },
+    "expected_source_contract_hashes": {
+      "options": "4b3ce6389cb5e833aa2ed7786816e5027f51ab0000bbf106c51299448b45b16a",
+      "plan": "22e9a43ccd1b21f52829798a2cd93c1a7061ca9bed8f51ff557c1ffc16cb78d9",
+      "underlying": "a9b4568905667354a366066d237d9e987c4f524f4847d64a31ea0cbc6045ed31"
+    },
+    "forecast": {
+      "block_sessions": 5,
+      "bootstrap_repetitions": 300,
+      "factor_candidates": [
+        0,
+        2,
+        4,
+        6,
+        8,
+        12
+      ],
+      "factor_iterations": 20,
+      "initial_development_fraction": 0.6,
+      "max_scenarios": 200,
+      "max_train_anchors": 50000,
+      "min_calendar_blocks": 20,
+      "min_expirations": 30,
+      "neighbor_candidates": [
+        50,
+        100,
+        200
+      ],
+      "release_tolerances": {
+        "alpha": 0.05,
+        "basis": "PROSPECTIVE_ENGINEERING_TOLERANCES_NOT_EMPIRICALLY_CERTIFIED",
+        "interval90_coverage_error_max": 0.05,
+        "missing_label_fraction_max": 0.25,
+        "standardized_bias_max": 0.25
+      },
+      "ridge_candidates": [
+        0.1,
+        1.0,
+        10.0
+      ],
+      "sealed_test_fraction": 0.2,
+      "validation_blocks": 4
+    },
+    "labels": {
+      "anchor_spacing_minutes": 5,
+      "horizons_minutes": [
+        1,
+        5,
+        15,
+        30,
+        60
+      ],
+      "named_horizons": true,
+      "sampled_hit_targets_price_units": [
+        0.1
+      ]
+    },
+    "mode": "LOCAL_READ_ONLY",
+    "normalization": {
+      "strike_divisor": null,
+      "vendor_iv_evidence": null,
+      "vendor_iv_unit": null
+    },
+    "paths": {
+      "options_root": "D:\\QQQ\\raw_theta",
+      "research_root": "D:\\optionsimulation\\qqq_4dte_research",
+      "underlying_root": "D:\\QQQ\\OHLCV_daily"
+    },
+    "prior_asof_max_age_seconds": null,
+    "reference": {
+      "contract_metadata_file": null,
+      "listed_universe_complete_expirations": [],
+      "product_rules_file": null,
+      "terminal_reference_file": null
+    },
+    "resources": {
+      "inner_numeric_threads": 1,
+      "memory_budget_gib": 20.0,
+      "underlying_cache_sessions": 8
+    },
+    "retain_prior_asof_view": true,
+    "run_id": "implementation_check_02",
+    "schema_version": "1.0",
+    "seed": 41729,
+    "shape": {
+      "anchor_spacing_minutes": 5,
+      "enabled": true,
+      "max_interpolation_log_gap": 0.03,
+      "midpoint_penalty": 0.05,
+      "numeric_scale_floor": 0.01,
+      "smooth_penalty": 0.0
+    },
+    "source_contracts": {
+      "options": "D:\\strategy calculation\\QQQ_options_raw_theta_data_contract_prompt.txt",
+      "plan": "D:\\strategy calculation\\QQQ_4DTE_whole_chain_lifecycle_research_plan.txt",
+      "underlying": "D:\\strategy calculation\\QQQ_OHLCV_data_contract_prompt.txt"
+    },
+    "symbol": "QQQ",
+    "underlying_asof_max_age_seconds": 0
+  },
+  "engine_version": "1.0.0",
+  "packages": {
+    "matplotlib": "3.9.2",
+    "numpy": "2.1.3",
+    "pandas": "2.2.3",
+    "pandas_market_calendars": "5.1.1",
+    "psutil": "7.0.0",
+    "pyarrow": "18.0.0",
+    "scipy": "1.14.1"
+  },
+  "platform": "Windows-10-10.0.19045-SP0",
+  "python": "3.13.0 (tags/v3.13.0:60403a5, Oct  7 2024, 09:38:07) [MSC v.1941 64 bit (AMD64)]",
+  "reference_hashes": {},
+  "release_labels": {
+    "action_status": "DISABLED",
+    "data_population": "OBSERVED_UNIVERSE_ONLY",
+    "path_status": "NOT_IMPLEMENTED",
+    "prediction_status": "DESCRIPTIVE_ONLY"
+  },
+  "resources": {
+    "logical_cpu_count": 20,
+    "physical_ram_gib": 31.817737579345703
+  },
+  "schema_version": "1.0",
+  "semantic_id": "b8bab27fdf9a51dc0f4e7300458554a3bd29497efaab1696c5574b9633320f31",
+  "source_contracts": {
+    "options": {
+      "path": "D:\\strategy calculation\\QQQ_options_raw_theta_data_contract_prompt.txt",
+      "sha256": "4b3ce6389cb5e833aa2ed7786816e5027f51ab0000bbf106c51299448b45b16a"
+    },
+    "plan": {
+      "path": "D:\\strategy calculation\\QQQ_4DTE_whole_chain_lifecycle_research_plan.txt",
+      "sha256": "22e9a43ccd1b21f52829798a2cd93c1a7061ca9bed8f51ff557c1ffc16cb78d9"
+    },
+    "underlying": {
+      "path": "D:\\strategy calculation\\QQQ_OHLCV_data_contract_prompt.txt",
+      "sha256": "a9b4568905667354a366066d237d9e987c4f524f4847d64a31ea0cbc6045ed31"
+    }
+  }
+}

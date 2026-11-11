@@ -1,0 +1,17 @@
+[
+  {
+    "remediation": "Supply effective-dated standard-product/deliverable/multiplier evidence; quoted price and spot-moneyness research continues.",
+    "stage": "intrinsic_USD_shape_IV",
+    "status": "UNSUPPORTED_ADJUSTED_OR_UNKNOWN_DELIVERABLE"
+  },
+  {
+    "remediation": "Supply verified contractual economic/trading boundaries and an independent terminal-reference file. A 15:59 close is not substituted.",
+    "stage": "full_expiry_payoff",
+    "status": "TERMINAL_REFERENCE_MISSING"
+  },
+  {
+    "remediation": "Observed-universe results only; complete historical listings have not been supplied.",
+    "stage": "listed_universe",
+    "status": "UNVERIFIED_LISTED_UNIVERSE"
+  }
+]

@@ -43,7 +43,7 @@ class SimulationWorker(QObject):
                         try:
                             self.controller.store.connection.execute('SELECT 1')
                         except Exception:
-                            self.controller=ReplayController.restore(self.controller.config,self.controller.session_id,self.controller.branch_id)
+                            self.controller=ReplayController.restore(self.controller.config,self.controller.store.path,self.controller.branch_id)
                     raise
                 self.controller = new
                 self.config=new.config

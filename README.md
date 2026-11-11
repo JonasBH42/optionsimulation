@@ -6,7 +6,7 @@ A local PySide6 desktop application for causal QQQ replay, simulated options ord
 
 The saved numerical evidence is in [final_risk_status.json](runtime/risk_validation/final_risk_status.json) and [risk_build_and_validation.md](docs/risk_build_and_validation.md). [release-status.json](docs/release-status.json) tracks the remaining gates. Missing inputs and unqualified models return explicit unavailable states; replay and simulated account workflows remain usable.
 
-The final source passes all 437 tests. Matching native/offscreen executable checks and actual 100%, 150%, and 200% viewport checks pass; session restore also passes between the executable and `.venv` in both directions. Exact build identity and results are in `runtime/results/release-manifest.json` and the corresponding smoke reports. A separate clean Windows account has not been tested; same-account diagnostics do not close that gate.
+The fast-skip update passes all 577 tests, recorded in `runtime/results/fast-skip-tests.xml` with hashes in `runtime/results/fast-skip-test-evidence.json`. Its packaged verification is recorded in `dist/QQQSimulator.dist/evidence/fast-skip-verification.json`. The prior release's numerical, native/offscreen, and 100%, 150%, and 200% viewport reports remain historical evidence; a separate clean Windows account has not been tested.
 
 ## Run
 
@@ -38,8 +38,9 @@ cd D:\optionsimulation
 ```
 
 The standalone folder's `artifact-manifest.json` and `artifact-manifest.sha256`
-identify its assembled files; `evidence/release-manifest.json` records its tested
-build. Retain the supplied notices, licenses and corresponding dependency source
+identify its assembled files; `evidence/fast-skip-verification.json` records the
+tested update and source/compiled session interoperability. Previous release
+reports are under `evidence/historical-before-fast-skip`. Retain the supplied notices, licenses and corresponding dependency source
 archives with that folder. This is a local project handoff: the complete editable
 source, development environment, offline checkpoints and market-data paths remain
 under or relative to `D:\optionsimulation`, rather than inside the executable.
@@ -54,20 +55,24 @@ viewing or the explicit demo. Details are in [startup-checks.md](docs/startup-ch
 ## Desktop workflow
 
 1. Open the historical archives or select **Session → Open synthetic demonstration**. The toolbar shows both the completed candle and the New York decision time.
-2. Advance by trading minutes or elapsed minutes. Chart aggregation is independent. A jump processes intervening events and stops at an unresolved required observation.
+2. Advance by trading minutes or elapsed minutes. Chart aggregation is independent. Multi-minute advances process intervening execution/lifecycle events without rebuilding the display each minute, and stop at an unresolved required observation.
 3. Select an option and use **Buy selected** or **Sell selected**. Edit signed quantities in the draft. Positive quantity is long. The signed limit is the minimum dollar premium cash **per ratio unit**: `+100` requires at least $100 credit; `-200` permits at most $200 debit. Fees are separate.
 4. Set the finite target deadline and hard cutoff. **Check costs / risk** previews on a clone without changing the account. **Submit simulated order** reserves capital; fills require eligible later quotes.
 5. Positions and orders provide close/roll/cancel actions. Keep the campaign ID through adjustments to preserve the original dollar target and cash history.
-6. Sessions save after each accepted command and complete replay batch. Restore a saved SQLite file, branch from a committed event, or export a frozen JSON/TXT/CSV record.
+6. Sessions save after each accepted command and complete replay batch. Fast skips save after at most 64 trading minutes or approximately 250 ms of processing, plus session boundaries. Restore a saved SQLite file, branch from a committed event, or export a frozen JSON/TXT/CSV record. Quiet intermediate minutes are not separate saved branch points.
 
 Sessions freeze source, dependency-lock and runtime identities alongside their
 data/model revisions. Restore refuses missing or changed implementation identities
-before rebuilding account state. Use `export-saved` to inspect an older session's
+before rebuilding account state. The reviewed original executable and pre-update
+source build have narrow copied upgrades: each original SQLite file is retained, its stored
+history is verified, and continuation uses a new branch in a separate working copy.
+Reopening the original selects the existing upgraded progress. Other incompatible
+versions remain refused. Use `export-saved` to inspect an older session's
 original stored state and analyses without replay or migration; see
 `docs/runtime-identity.md` for the compatibility contract.
 
 During Step or a jump, the status bar shows the requested time and the last saved
-minute; Escape requests a stop after the current minute. The displayed chart and
+batch; Escape requests a stop after the current completed batch. The displayed chart and
 diagnostics keep their previous completed snapshot until the action finishes.
 The diagnostics `decision_at` and `state_version` identify that snapshot. Archive
 warnings include source paths and row numbers when available.

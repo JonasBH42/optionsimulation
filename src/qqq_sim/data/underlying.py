@@ -1,5 +1,7 @@
 """Authoritative OHLCV reading, completed-bar availability, causal aggregation."""
 from __future__ import annotations
+from bisect import bisect_right
+from dataclasses import dataclass
 from datetime import datetime, timedelta
 import math
 from pathlib import Path
@@ -13,6 +15,27 @@ TIME_COLUMNS = ("regular_time", "datetime", "timestamp", "time", "date")
 PRICE_COLUMNS = ("open", "high", "low", "close", "volume")
 
 
+@dataclass(frozen=True)
+class UnderlyingIndex:
+    candles: tuple
+    boundaries: tuple
+    diagnostics: tuple
+    failures: tuple
+    candle_times: tuple
+    boundary_times: tuple
+
+    def before(self, cutoff):
+        # File order determines the first error, just as in the streaming reader.
+        for available_at, error in self.failures:
+            if available_at is None or available_at <= cutoff:
+                if isinstance(error, DataError):
+                    raise DataError(error.code, error.message, **error.details)
+                raise type(error)(*error.args)
+        return (self.candles[:bisect_right(self.candle_times, cutoff)],
+                self.boundaries[:bisect_right(self.boundary_times, cutoff)],
+                tuple(item for available_at, item in self.diagnostics if available_at <= cutoff))
+
+
 class UnderlyingReader:
     def __init__(self, calendar: CalendarService, cache: ByteLRU | None = None):
         self.calendar, self.cache = calendar, cache or ByteLRU()
@@ -22,7 +45,13 @@ class UnderlyingReader:
         mapping = mapping or NormalizationMapping()
         if mapping.bar_label_semantics not in ("START", "END"):
             raise DataError("TEMPORAL_SEMANTICS_UNVERIFIED", mapping.bar_label_semantics)
-        key = (partition.path, partition.size, partition.mtime_ns, "underlying-raw-v1")
+        session = self.calendar.session(partition.key.session_date)
+        normalized_key = (partition.path, partition.size, partition.mtime_ns,
+                          "underlying-normalized-v1", stable_hash(mapping), session)
+        normalized = self.cache.get(normalized_key)
+        if normalized is not None:
+            return normalized.before(cutoff)
+        key = (partition.path, partition.size, partition.mtime_ns, "underlying-raw-v1", mapping.timestamp_column)
         raw = self.cache.get(key)
         if raw is None:
             schema = pq.read_schema(partition.path)
@@ -34,46 +63,55 @@ class UnderlyingReader:
             raw = (timestamp_column, tuple(tuple(row[name] for name in (timestamp_column, *PRICE_COLUMNS)) for row in table.to_pylist()))
             self.cache.put(key, raw, max(table.nbytes * 4, len(raw[1]) * 256))
         timestamp_column, rows = raw
-        session = self.calendar.session(partition.key.session_date)
-        candles, boundaries, diagnostics, seen = [], [], [], set()
+        candles, boundaries, diagnostics, failures, seen = [], [], [], [], set()
         for number, values in enumerate(rows, 1):
-            stamp = parse_timestamp(values[0], partition.key.session_date)
+            try:
+                stamp = parse_timestamp(values[0], partition.key.session_date)
+            except (ValueError, TypeError) as error:
+                failures.append((None, error))
+                continue
             label = stamp - timedelta(minutes=1) if mapping.bar_label_semantics == "END" else stamp
             boundary = mapping.bar_label_semantics == "START" and stamp == session.underlying_close
             available_at = stamp if mapping.bar_label_semantics == "END" or boundary else stamp + timedelta(minutes=1)
-            if available_at > cutoff:
-                continue
             if stamp.date() != partition.key.session_date:
-                raise DataError("SESSION_IDENTITY_MISMATCH", f"Underlying row {number} differs from filename day")
+                failures.append((available_at, DataError("SESSION_IDENTITY_MISMATCH", f"Underlying row {number} differs from filename day")))
+                continue
             if stamp.second != 0 or stamp.microsecond != 0:
-                diagnostics.append(Diagnostic("INVALID_MINUTE_LABEL", "Underlying OHLCV label is not a minute boundary", partition.path, number))
+                diagnostics.append((available_at, Diagnostic("INVALID_MINUTE_LABEL", "Underlying OHLCV label is not a minute boundary", partition.path, number)))
                 continue
             if session.status != "OPEN":
-                raise DataError("CALENDAR_SOURCE_CONFLICT", "Observations exist on a modeled closed day")
+                failures.append((available_at, DataError("CALENDAR_SOURCE_CONFLICT", "Observations exist on a modeled closed day")))
+                continue
             if label < session.exchange_open:
                 continue
             if label >= session.underlying_close and not boundary:
                 if session.early_close and label.hour < 16:
-                    raise DataError("CALENDAR_SOURCE_CONFLICT", "RTH source extends after declared early close")
+                    failures.append((available_at, DataError("CALENDAR_SOURCE_CONFLICT", "RTH source extends after declared early close")))
                 continue
             if stamp in seen:
-                raise DataError("DUPLICATE_UNDERLYING_TIMESTAMP", stamp.isoformat())
+                failures.append((available_at, DataError("DUPLICATE_UNDERLYING_TIMESTAMP", stamp.isoformat())))
+                continue
             seen.add(stamp)
             try:
                 opn, high, low, close, volume = map(float, values[1:])
             except (ValueError, TypeError):
-                diagnostics.append(Diagnostic("INVALID_CANDLE", "Non-numeric OHLCV", partition.path, number))
+                diagnostics.append((available_at, Diagnostic("INVALID_CANDLE", "Non-numeric OHLCV", partition.path, number)))
                 continue
             if not all(math.isfinite(value) for value in (opn, high, low, close, volume)) or volume < 0 or high < low or high < max(opn, close) or low > min(opn, close):
-                diagnostics.append(Diagnostic("INVALID_CANDLE", "Invalid finite/geometry/volume check", partition.path, number))
+                diagnostics.append((available_at, Diagnostic("INVALID_CANDLE", "Invalid finite/geometry/volume check", partition.path, number)))
                 continue
             if volume == 0:
-                diagnostics.append(Diagnostic("ZERO_VOLUME_EXCLUDED", "Canonical profile excludes zero-volume rows", partition.path, number, "INFO"))
+                diagnostics.append((available_at, Diagnostic("ZERO_VOLUME_EXCLUDED", "Canonical profile excludes zero-volume rows", partition.path, number, "INFO")))
                 continue
             candle = Candle(label, available_at, opn, high, low, close, volume,
                             stable_hash((Path(partition.path).name, stamp, (opn, high, low, close, volume))), boundary=boundary)
             (boundaries if boundary else candles).append(candle)
-        return tuple(sorted(candles, key=lambda row: row.label)), tuple(sorted(boundaries, key=lambda row: row.label)), tuple(diagnostics)
+        candles = tuple(sorted(candles, key=lambda row: row.label))
+        boundaries = tuple(sorted(boundaries, key=lambda row: row.label))
+        normalized = UnderlyingIndex(candles, boundaries, tuple(diagnostics), tuple(failures),
+                                     tuple(row.available_at for row in candles), tuple(row.available_at for row in boundaries))
+        self.cache.put(normalized_key, normalized, 1024 + len(rows) * 768)
+        return normalized.before(cutoff)
 
 
 def aggregate_candles(candles, minutes: int | str, calendar: CalendarService | None = None) -> tuple[Candle, ...]:

@@ -434,7 +434,7 @@ class MainWindow(QMainWindow):
         target,committed=record["target"],record["decision_at"]
         self.statusBar().showMessage(
             f"Advancing to {target:%Y-%m-%d %H:%M %Z} | saved through {committed:%Y-%m-%d %H:%M}"
-            f" | {record['elapsed_seconds']:.1f}s | Esc to stop after this minute."
+            f" | {record['elapsed_seconds']:.1f}s | Esc to stop after the current batch."
             f" Display and diagnostics: {self.bundle.decision_at:%Y-%m-%d %H:%M}, state {self.bundle.version}.")
 
     @Slot(str,object)
@@ -858,7 +858,7 @@ class MainWindow(QMainWindow):
         if self.worker.controller:
             self.worker.controller.cancel_requested.set()
         if self.busy and self._advance_command_id:
-            self.statusBar().showMessage("Stopping after the current minute; the last saved state will be displayed.")
+            self.statusBar().showMessage("Stopping after the current batch; the last saved state will be displayed.")
 
     def next_session(self):
         if not self.bundle:

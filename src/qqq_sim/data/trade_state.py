@@ -28,6 +28,13 @@ def latest_trades(reader, partition, cutoff, spot, mapping, inclusive=False):
     remain available for correction validation. Removing a current group member,
     or inserting before an already processed observation, requires a full read.
     """
+    from .replay_window import indexed_trade_observations
+    indexed = indexed_trade_observations(reader, partition, cutoff, spot, mapping, inclusive)
+    if indexed is not None:
+        groups = {}
+        for item in active_trades(indexed):
+            _add_group(groups, item)
+        return _selected(groups)
     key=("latest-trade-state-v1",partition.path,partition.size,partition.mtime_ns,
          stable_hash(mapping),reader.calendar.session(partition.key.session_date))
     state=reader.cache.get(key)

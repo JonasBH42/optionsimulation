@@ -25,6 +25,10 @@ def chain_quotes(reader, partition, cutoff, spot, mapping, inclusive=False):
     Inferred strike units are reused only while every old strike still admits
     exactly the same scale at the current authoritative spot.
     """
+    from .replay_window import indexed_chain_quotes
+    indexed = indexed_chain_quotes(reader, partition, cutoff, spot, mapping, inclusive)
+    if indexed is not None:
+        return indexed
     key = ("chain-quote-state-v1", partition.path, partition.size,
            partition.mtime_ns, stable_hash(mapping), reader.calendar.session(partition.key.session_date))
     state = reader.cache.get(key)

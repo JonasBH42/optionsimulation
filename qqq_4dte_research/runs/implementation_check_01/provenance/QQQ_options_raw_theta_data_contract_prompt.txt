@@ -1,0 +1,115 @@
+QQQ OPTIONS / raw_theta — CANONICAL DATA CONTRACT
+
+Use these rules whenever reading, researching, backtesting, replaying, repairing, or extending the local QQQ options dataset. Treat them as data-contract requirements, not strategy settings. Do not silently substitute other data, invent missing values, or use future information.
+
+SOURCE / LAYOUT
+- Authoritative root: D:\QQQ\raw_theta
+- Canonical current folders:
+  greeks\       option quotes + IV + Greeks
+  ohlcv\        per-contract option OHLCV
+  trades\       option trades
+  oi_before\    OI safely available before/during the session (prior/opening snapshot)
+  oi\           same-session/EOD OI; NOT intraday-known
+- Raw source files are immutable .csv.gz partitions. Index metadata first; load only partitions/columns actually needed.
+- Logical partition key = (data type, historical session date, expiration). Never merge different session/expiry pairs.
+- Filenames contain session and expiry, normally:
+  greeks_YYYYMMDD_exp=YYYY-MM-DD.csv.gz
+  ohlcv_YYYYMMDD_exp=YYYY-MM-DD.csv.gz
+  trades_YYYYMMDD_exp=YYYY-MM-DD.csv.gz
+  oi_prev_YYYYMMDD_exp=YYYY-MM-DD.csv.gz / related prior-OI files in oi_before
+  oi_eod_YYYYMMDD_exp=YYYY-MM-DD.csv.gz in oi
+  Prefix variations/copy suffixes may exist; parse the embedded YYYYMMDD and exp=YYYY-MM-DD rather than relying only on the leading text.
+- Scan the actual directory each run or maintain an invalidatable index. Do not assume fixed date/DTE coverage from old counts or filenames.
+- Duplicate files mapping to the same logical partition are an error unless an explicit duplicate-resolution policy is requested. Never silently choose one.
+
+CANONICAL FIELDS / NORMALIZATION
+- Greeks partitions can contain: symbol, expiration, strike, right, timestamp, bid, ask, delta, theta, vega, rho, epsilon, lambda, gamma, vanna, charm, vomma, veta, vera, speed, zomma, color, ultima, d1, d2, dual_delta, dual_gamma, implied_vol, iv_error, underlying_timestamp, underlying_price, plus possible other vendor fields.
+- OHLCV commonly contains: symbol, expiration, strike, right, timestamp, open, high, low, close, volume.
+- Trades commonly contain contract identity + timestamp/sequence/price/size/exchange/conditions.
+- OI contains contract identity + open_interest and may or may not have a meaningful intraday timestamp.
+- Historical Theta schemas can vary. Canonicalize recognized aliases instead of hard-coding one export header. Important aliases include:
+  timestamp: timestamp, datetime, regular_time, time, quote_time, date_time
+  ms_of_day: ms_of_day, msofday, milliseconds_of_day
+  strike: strike, strike_price, strikeprice, strike_milli, strike_millis
+  right: right, option_type, type, put_call, cp
+  bid/ask/last: corresponding *_price aliases; last may appear as price
+  implied_vol: implied_vol, implied_volatility, impliedvolatility, iv
+  underlying_price: underlying_price, underlying_px, underlying
+  open_interest: open_interest, openinterest, oi
+- Required fields must be validated explicitly. If a required field is absent, fail/report it; never guess which unrelated column is the price/IV/etc.
+- Normalize rights to C/P (or CALL/PUT internally, consistently).
+- Strike units have varied. Preserve raw strike until scale is resolved. Auto-detect a plausible positive divisor using QQQ spot/strike plausibility (commonly 1 or 1000; inspect broader candidates if needed), then normalized_strike = raw_strike/divisor. If scale is ambiguous, stop/flag it instead of guessing.
+- Normalize IV consistently. Determine whether source IV is decimal or percent from schema/data checks; convert once to decimal for calculations and record the convention. Never mix 25 with 0.25.
+
+TIME / SESSION SEMANTICS
+- Market timezone: America/New_York. Interpret naive Theta timestamps as New York wall-clock time. Preserve Eastern wall-clock semantics; do not silently reinterpret them as UTC.
+- Regular session for minute research is 09:30 <= t < 16:00 ET. A vendor request may use end_time=16:00; treat 16:00 observations as the close/EOD boundary unless the task explicitly needs them.
+- Floor/normalize minute data consistently only after parsing the original timestamp; preserve the original timestamp when quote age or event ordering matters.
+- Legacy reader convention that must be preserved: for Greeks, IV, and option OHLCV requests, an intraday selector of 00:00:00 means “return/use all timestamps for that session,” not “midnight only.”
+- OI is a daily snapshot, not a true intraday time series. Intraday clock filters do not give it additional temporal precision.
+- Legacy semantic aliases:
+  oi_yesterday / prior OI -> oi_before
+  oi_today / same-session OI -> oi
+  iv view -> implied-volatility data, normally implied_vol from greeks, with the same timestamp rules.
+
+NO-LOOKAHEAD / AS-OF RULES
+- For any target time T, use only information known by T. Never choose a later observation because it is closer.
+- As-of option quote = latest valid quote/event with timestamp <= T.
+- In a replay where cursor T denotes a fully revealed one-minute bar, sub-minute events may be included only if timestamp < T + 1 minute; events from the next minute are excluded. The normalized quote minute itself must never be later than the cursor minute.
+- Preserve the selected source timestamp and calculate quote age. Distinguish current, stale, missing, and invalid quotes rather than backfilling from the future.
+- Contract OHLCV and trades must also be filtered to revealed time before aggregation/volume/last-trade calculations.
+- Deduplicate only within the same logical contract/time identity using deterministic event order (timestamp, then sequence when present); for minute snapshots, keep the last valid event in that minute.
+- If a requested time has no acceptable prior quote, return missing/skip according to the task. Never use a future quote.
+- When the task specifies maximum quote age, minimum OI, or maximum relative spread, enforce those thresholds exactly. Relative spread = (ask-bid)/mid when mid > 0. If no threshold is supplied, do not invent a strategy-specific threshold; still expose age/spread/quality so downstream work can filter.
+- Basic quote validity: finite bid/ask, bid >= 0, ask > 0, ask >= bid. Treat crossed/invalid markets as invalid rather than repairing them.
+- For intraday work, use only oi_before as known OI. Same-session/EOD oi may be used only for explicitly post-session/EOD analyses and must never leak into an earlier timestamp.
+
+UNDERLYING PRICE AUTHORITY
+- The authoritative QQQ underlying price source is the separate dataset D:\QQQ\OHLCV_daily, not raw_theta’s embedded underlying_price.
+- Whenever the QQQ OHLCV dataset is available/required, join each options observation to the QQQ Parquet price known at the same as-of time and use that for spot, ATM/moneyness, boundaries, scenarios, and underlying returns.
+- raw_theta underlying_price / underlying_timestamp may be retained for diagnostics/vendor comparison, but must not silently replace the authoritative QQQ Parquet close.
+- Never join an underlying observation from the future. If an exact minute is unavailable, use only a permitted prior observation and expose its age, or mark the join missing.
+- Keep the options and underlying datasets physically/logically separate; join them explicitly by session/time.
+
+DATA-TYPE SEMANTICS
+- greeks: primary source for historical bid/ask, IV and Greeks. For a chain snapshot, resolve exact session+expiration, keep revealed rows only, then take the last revealed row per symbol/strike/right.
+- ohlcv: option-contract OHLCV. Filter by contract/session/expiration and as-of time before using. Volume is contract volume, not QQQ underlying volume.
+- trades: event-level trade source for last trade and trade-derived volume when needed. Respect sequence/order and as-of filtering.
+- oi_before: safely-known prior/opening OI; valid for intraday liquidity filters.
+- oi: same-session/EOD OI; catalog it but do not expose it as morning/intraday-known information.
+- If both trade-derived and stored option OHLCV exist, do not mix them silently. State which source is used and validate consistency if combining.
+
+READ / PERFORMANCE RULES
+- Prefer metadata-only catalog scans, then read only required partitions and columns.
+- .csv.gz is sequential: row filters do not avoid decompression. For repeated work, cache normalized/decompressed partitions in memory and/or an optional Parquet mirror; the raw .csv.gz files remain the source of truth.
+- Cache identity should include file path plus size/mtime (or stronger content fingerprint) so changed files invalidate cached frames.
+- Treat cached frames as read-only; copy before mutation.
+- On SSD/NVMe, independent partition/data-type reads may be parallelized; on HDD, sequential reads may be faster due to seek contention. Do not parallelize blindly.
+- Use vectorized filtering/normalization. Avoid repeatedly reopening the same gzip merely to inspect an unchanged schema; cache schema mappings, but re-inspect a file if the cached mapping fails validation.
+- Missing folder/file/schema/data must produce an explicit diagnostic. No automatic synthetic-data fallback for production research/backtests.
+
+THETADATA FETCH / REPAIR CONTRACT
+Apply this section only when the task is to acquire, recover, or repair raw_theta data; ordinary analysis should read the existing local dataset.
+
+- ThetaData v3 is accessed through the local Theta Terminal, historically at http://localhost:25503.
+- Iterate the supplied/discovered trading-day -> expiration mapping. Do not assume the current dataset is limited to a particular DTE merely because an old mapping filename included “5day”; scan actual partitions.
+- Historical production defaults were 1-minute data, 09:30:00-16:00:00 ET, global HTTP concurrency 8 and day concurrency 8. Respect the active ThetaData plan limits.
+- Greeks acquisition is FULL-DAY, SINGLE-SHOT:
+  primary: /v3/option/history/greeks/all with interval=1m
+  fallback: /v3/option/history/trade_greeks/all
+  Do not stitch/chunk a supposedly full-day Greeks partition.
+- Strict integrity is the default: require start/end-session presence and at least ~98% expected minute coverage. If a downloaded Greeks file is partial/invalid, discard it and retry; never keep it merely because it is non-empty.
+- Trades are fetched as a full-session file and validated. Option 1-minute OHLCV may be rebuilt locally from validated trades:
+  per (minute,strike,right): open=first trade, high=max, low=min, close=last, volume=sum(size).
+- Use atomic writes: write to a temporary .part file, validate, then os.replace/rename into the final path. Never leave a partial file looking complete.
+- OI handling:
+  prior/opening OI: request the appropriate same-date/prior snapshot, filter to the target expiration, and store semantically under oi_before.
+  EOD/same-session OI: when the vendor publication requires it, probe forward through later mapped trading days until the target session’s EOD value is obtainable; store semantically under oi. Do not cap this to an arbitrary short calendar window unless explicitly requested.
+- Retry transient/network/server failures with jittered exponential backoff. Historical retryable statuses included 408, 425, 429, 500, 502, 503, 504, 570, 571.
+- Maintain resumable state per (dataset, day, expiration): append event log + current manifest/state + unresolved report. Historically these lived under raw_theta\_logs as stream_results.log, manifest_events.jsonl, manifest_state.csv, unresolved.csv.
+- On restart, validate existing outputs before marking them complete. Reuse valid completed files; rebuild invalid/partial ones; retry unresolved/retryable records in recovery passes.
+- Never overwrite a known-good raw partition merely to simplify a rerun.
+- At completion, explicitly report unresolved/invalid/no-data records; do not silently claim full coverage.
+
+FINAL SAFETY RULE
+When dataset facts conflict with a particular old script’s strategy/replay convenience behavior, preserve this data contract: authoritative QQQ Parquet spot, Eastern-time semantics, immutable raw partitions, explicit schema/quality validation, OI publication timing, and strict no-lookahead take precedence.

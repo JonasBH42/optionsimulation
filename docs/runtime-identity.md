@@ -24,7 +24,34 @@ tampered identity records with `SESSION_IMPLEMENTATION_IDENTITY_INVALID`, and
 different source/lock/runtime content with `SESSION_IMPLEMENTATION_REVISION_CHANGED`.
 Branches preserve the exact frozen record, including its original provenance.
 Reading, exporting and checking identity do not advance economic state versions.
-No automatic migration or relabeling of old sessions is performed.
+
+The replay performance release has one explicit compatibility exception:
+`QQQ_FAST_REPLAY_UPGRADE_V1`. Its two frozen predecessors are recorded in
+`src/qqq_sim/services/_session_upgrade_policy.py`; these records are not inferred
+from whatever source happens to be installed. They identify the original installed native
+distribution and the source checkout immediately before the replay change.
+Only these exact source manifests, their application version and dependency lock
+are accepted, and the saved Python/SQLite/runtime
+dependency versions must match the current process. General identity verification
+remains strict; unknown versions and missing or damaged identities remain refused.
+
+When either predecessor is restored, the original database stays unchanged as the
+backup. A read-only SQLite transaction validates all branch/event/checkpoint and
+modern analysis hashes, then SQLite backup captures the complete snapshot,
+including committed WAL data. The staged working copy receives a new child branch
+and an `IMPLEMENTATION_UPGRADED` event identifying both implementations and the
+exact parent state. Its cash, positions, orders, campaign data and decision time
+remain unchanged. Original events, identities and analyses remain historical;
+new analysis requests use the new branch. Branch creation and the transition are
+one transaction, and only a complete verified copy is published.
+
+Working copies live under the saved configuration's
+`runtime_root/session_upgrades/<snapshot-and-target-digest>/session.sqlite`.
+Reopening the same original save reuses that copy and its subsequent progress.
+Opening an unknown or damaged existing copy fails rather than overwriting it.
+Selecting a legacy historical state likewise creates an explicit upgraded child;
+it never relabels historical events. Worker recovery uses the actual database
+path, which may differ from the original session-ID location.
 
 ## Export an older or incompatible session
 
@@ -54,3 +81,8 @@ pre-reconstruction refusals, unchanged database bytes during legacy/different-bu
 raw exports, exact preserved analysis payloads, corrupt chains, CLI session-ID
 routing and overwrite protection. These are compatibility and storage checks;
 they do not qualify numerical probability models.
+
+`tests/test_session_upgrade.py` covers both exact predecessors' admission, matching
+runtime requirements, live-WAL copying, unchanged originals and economic state,
+preserved historical records, reusable progress, atomic transition rollback,
+failed publication cleanup and refusal to replace a corrupted working copy.

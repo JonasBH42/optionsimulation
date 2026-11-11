@@ -89,14 +89,20 @@ def runtime_identity():
     return deepcopy(_cached_identity())
 
 
-def verify_runtime_identity(saved):
-    """Refuse old or incompatible semantics before reconstructing account objects."""
+def validate_runtime_identity(saved):
+    """Validate a stored record without authorizing its implementation to run."""
     if saved is None:
         raise BrokerError("SESSION_IMPLEMENTATION_IDENTITY_MISSING", remedy="Export the original saved session without replay")
     if (not isinstance(saved, dict) or saved.get("schema") != IDENTITY_SCHEMA
             or not isinstance(saved.get("content"), dict)
             or saved.get("identity_hash") != digest({"schema": IDENTITY_SCHEMA, "content": saved.get("content")})):
         raise BrokerError("SESSION_IMPLEMENTATION_IDENTITY_INVALID")
+    return deepcopy(saved)
+
+
+def verify_runtime_identity(saved):
+    """Refuse old or incompatible semantics before reconstructing account objects."""
+    saved = validate_runtime_identity(saved)
     current = runtime_identity()
     if saved["identity_hash"] != current["identity_hash"]:
         raise BrokerError("SESSION_IMPLEMENTATION_REVISION_CHANGED", saved=saved["identity_hash"],

@@ -1,0 +1,26 @@
+{
+  "cohort_definition": "CALENDAR_DATE_4",
+  "coordinates": {
+    "fixed": "x_s0=log(K/S_t0)",
+    "moving": "x_s=log(K/S_t)"
+  },
+  "coverage": "Valid current-minute quotes / scheduled slots in retrospective observed universe; listed denominator remains separate",
+  "decision_clock": {
+    "calendar": "NASDAQ",
+    "calendar_file": null,
+    "option_bar_evidence": null,
+    "option_bar_semantics": "REQUIRES_EVIDENCE",
+    "quote_timestamp_evidence": "SOURCE-OPTIONS as-of/revealed-minute contract and inspected one-minute Greeks records; source timestamp is used only as the record clock, not a verified original update clock.",
+    "quote_timestamp_semantics": "SNAPSHOT_RECORD_TIME",
+    "timezone": "America/New_York",
+    "underlying_bar_evidence": "User verified 2026-11-10: 09:30 summarizes 09:30-09:31 and is available at 09:31.",
+    "underlying_bar_semantics": "START_LABELED"
+  },
+  "mean": "Equal mean of contributing expiration-level cell means, conditional on valid required observations",
+  "population": "Every observed contract in scheduled exact cohort; observed-universe denominator is retrospective and is not a listing claim",
+  "price_units": "Quoted option price units; USD only when actual multiplier is verified",
+  "quantiles": "Within-expiration observed quantiles; cross-expiration quantiles describe expiration cell means, not pooled quotes",
+  "sampled_hits": "One-minute observed midpoint grid; missing-data bounds, not confidence intervals or fills",
+  "test_visibility": "FULL_ARCHIVE",
+  "uncertainty": "Calendar-session block bootstrap; all co-occurring contracts and expirations move together"
+}

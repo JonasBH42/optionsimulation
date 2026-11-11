@@ -1,0 +1,214 @@
+{
+  "atlas\\fixed_initial_coordinate.png": {
+    "bytes": 92243,
+    "sha256": "1b068eae68fad5af798f234e83012c8fd9609f0a02eb33a70056939da06f7235"
+  },
+  "atlas\\index.html": {
+    "bytes": 308772,
+    "sha256": "f8c9064cf36f2dc4a81c8aa812430703877e4d2447085bfcb9a3c4e701f840b2"
+  },
+  "atlas\\moving_current_coordinate.png": {
+    "bytes": 92009,
+    "sha256": "4355324c56b1203a2c85079275c0404b9468855e4549ce62a23bf0a6270b7aa9"
+  },
+  "audit.json": {
+    "bytes": 1813,
+    "sha256": "9dcd46a0c42e4b2d1a31f9491ba335763d8e4798960b15216beb1b8b2210e323"
+  },
+  "blocked_prerequisites.json": {
+    "bytes": 709,
+    "sha256": "6ce30a1f624c260b2532da7b68ea0edbf27cab9b1d9a4d29ec90de9ffd36a3be"
+  },
+  "cohort_registry.csv": {
+    "bytes": 826,
+    "sha256": "bb21c8bd4379ba2d4a562ee3c894b41770c9f3e509087bc08503f0fe8808622d"
+  },
+  "cohort_registry.parquet": {
+    "bytes": 14352,
+    "sha256": "c42e9e482a8d058c66546191d6211059b154fae8f47fcd696513204a256c87e6"
+  },
+  "description\\calendar_block_sufficient_statistics.parquet": {
+    "bytes": 7018,
+    "sha256": "a48f4c68c86199d47345cdeb89ac5024fd398062d0b9f0e651d9f6ffcd262ff1"
+  },
+  "description\\constrained_shape_fits.parquet": {
+    "bytes": 609,
+    "sha256": "a9cc2050dba9d319934d72f894b15f2ad410642531f506203f877b87e2c4b809"
+  },
+  "description\\expiration_balanced_cells.csv": {
+    "bytes": 77768,
+    "sha256": "71de7082d2aa1384456b8346f3a7c5e6dfcf2e0327ef9cc5cee1656fc10dca91"
+  },
+  "description\\fixed_initial_cell_coverage.csv": {
+    "bytes": 10152,
+    "sha256": "65b7444dce64fe9e154816b6e21b03d5544023cff463b6dd61fd547b409c6f11"
+  },
+  "description\\status.json": {
+    "bytes": 1996,
+    "sha256": "ea64b06e73e64f9ed9c31dc6dcbee7aed5353c982340e2aef672e625f77c151c"
+  },
+  "description\\within_expiration_cells.csv": {
+    "bytes": 66233,
+    "sha256": "4e1d24d0a89234553e434851f96ce8d25c9d2085e48dc0a2c8a57bee76eaadcd"
+  },
+  "estimand_registry.json": {
+    "bytes": 1663,
+    "sha256": "a2eeb9349c9b4d5d7837bc01b6eaf88aed67e027e26ce3fc019f762170336f1b"
+  },
+  "labels_status.json": {
+    "bytes": 30,
+    "sha256": "7e650bb9cfa67b3cbc9f3a693b5be1084e2c89b32bf29d8a0eab222670df7a99"
+  },
+  "missing_data_requests.csv": {
+    "bytes": 1734,
+    "sha256": "0f1f42f2150a4a9962d62ef28aceb5e2ac6a3178bc096cf8e8aa18d6d3d06f4f"
+  },
+  "panel_build_status.json": {
+    "bytes": 121,
+    "sha256": "9e57ec1d81668c964dcc01e7b6d8738098c67645173107ec4fe8348a7c793054"
+  },
+  "panels\\2012-06-08\\asof_diagnostics\\2012-06-04.parquet": {
+    "bytes": 78295,
+    "sha256": "b42d34ca87b40abaa3a6bf69e993d2fdff2085f62ea5c4f8749c422dc3c4524e"
+  },
+  "panels\\2012-06-08\\asof_diagnostics\\2012-06-05.parquet": {
+    "bytes": 79086,
+    "sha256": "8617758f2bd49175cdf14b07e8feec30871f0f6e1664f40e62958e5cec24186b"
+  },
+  "panels\\2012-06-08\\asof_diagnostics\\2012-06-06.parquet": {
+    "bytes": 77740,
+    "sha256": "e0031c4a8150de777152acc278b7d89dd8458d37d462b842bb4bf8618f650842"
+  },
+  "panels\\2012-06-08\\asof_diagnostics\\2012-06-07.parquet": {
+    "bytes": 76585,
+    "sha256": "eb319e864c37e52237bbb77b86ad37e1ad5480795ad0f1e53acb29915ec4afcc"
+  },
+  "panels\\2012-06-08\\asof_diagnostics\\2012-06-08.parquet": {
+    "bytes": 76284,
+    "sha256": "72bb8d648442640f1771434328b550bc9c2cd869494293501f87aeea30a6a043"
+  },
+  "panels\\2012-06-08\\chain_snapshots.parquet": {
+    "bytes": 451770,
+    "sha256": "0b6d11e68b3a5c3808639c297cf0b5d3b9da8b86ce88e6f8eabaf58b0de2dabf"
+  },
+  "panels\\2012-06-08\\complete.json": {
+    "bytes": 3128,
+    "sha256": "80022ccf3b3e60611e11ad14aba0e4175414566e7067179a6c64730936f1aa5c"
+  },
+  "panels\\2012-06-08\\contract_master.parquet": {
+    "bytes": 16587,
+    "sha256": "5399e760e8214e8f999cfe9cbeb1a68fe21b80e2ec8bd0b4248227ff194ba5d5"
+  },
+  "panels\\2012-06-08\\labels.parquet": {
+    "bytes": 5241592,
+    "sha256": "9329880041892b49af27f2c440eff003b9190a0be8c72102c06ffe724d8cc0b8"
+  },
+  "panels\\2012-06-08\\labels_complete.json": {
+    "bytes": 190,
+    "sha256": "aa5406d1e63e6f1b69461bba2af2341a943f34740873bdc6121faa0e8f9e52f8"
+  },
+  "panels\\2012-06-08\\lifecycle_observations\\2012-06-04.parquet": {
+    "bytes": 545551,
+    "sha256": "d834e6b0012b08881db77c77bf56df6f3bb108ff0729b7007b2abdf9637cca02"
+  },
+  "panels\\2012-06-08\\lifecycle_observations\\2012-06-05.parquet": {
+    "bytes": 502252,
+    "sha256": "bf2edf43f794cc537fc7a6a955fc145647a3dd52dfddcc769c32e20a5e61d325"
+  },
+  "panels\\2012-06-08\\lifecycle_observations\\2012-06-06.parquet": {
+    "bytes": 478049,
+    "sha256": "8eef816c87efa872a3d62caeacf0276bf048aa0bfcd1d4d82b8c3c89d41efea6"
+  },
+  "panels\\2012-06-08\\lifecycle_observations\\2012-06-07.parquet": {
+    "bytes": 474363,
+    "sha256": "86faaddcf5d184c9925b051d92ff27252a79973565579500932ba176eff069dc"
+  },
+  "panels\\2012-06-08\\lifecycle_observations\\2012-06-08.parquet": {
+    "bytes": 441391,
+    "sha256": "a8271a9a8247c12a96d753304c53cfc15e9c0ce86e79b3d89a0aca28d4693a5d"
+  },
+  "panels\\2012-06-08\\option_observations\\2012-06-04.parquet": {
+    "bytes": 255476,
+    "sha256": "b5e19900a821aee4040288c52a94560812c278c5d99eebbb02af3fa813662b21"
+  },
+  "panels\\2012-06-08\\option_observations\\2012-06-05.parquet": {
+    "bytes": 233784,
+    "sha256": "9633fa15688b32bb725a5710ca4d9faf2f8228b4d39fea445133ebba09451921"
+  },
+  "panels\\2012-06-08\\option_observations\\2012-06-06.parquet": {
+    "bytes": 217460,
+    "sha256": "39f424522407d4e01a10efcceb9512cea1bd2ab4ed542afb98853866bb54ff29"
+  },
+  "panels\\2012-06-08\\option_observations\\2012-06-07.parquet": {
+    "bytes": 213985,
+    "sha256": "1453a34f436400cacc6037c351cd7b40ede2326935e39e26287863fbb25aea49"
+  },
+  "panels\\2012-06-08\\option_observations\\2012-06-08.parquet": {
+    "bytes": 190912,
+    "sha256": "adc2a2e1be78f59bd82d2e8f7dde21a2f1c2a8f7fb88729e89a7d0c776a85f50"
+  },
+  "panels\\2012-06-08\\sparse_grid_contract.json": {
+    "bytes": 1556,
+    "sha256": "7cfc10f3b460c7e38f4c6b6eec134420bb7a61334759b056e9c7b60649803bec"
+  },
+  "panels\\2012-06-08\\unit_status.csv": {
+    "bytes": 154,
+    "sha256": "bafb7a3c4c481aab6313758c3cb0c71479c1ec84c7e73e6040cc9f18753016c0"
+  },
+  "partition_coverage.csv": {
+    "bytes": 9399,
+    "sha256": "df4fa225a385a49bf2640a565c32a8c54b9758925743f59d4f9c0238736ca52a"
+  },
+  "provenance\\QQQ_4DTE_whole_chain_lifecycle_research_plan.txt": {
+    "bytes": 125542,
+    "sha256": "22e9a43ccd1b21f52829798a2cd93c1a7061ca9bed8f51ff557c1ffc16cb78d9"
+  },
+  "provenance\\QQQ_OHLCV_data_contract_prompt.txt": {
+    "bytes": 6025,
+    "sha256": "a9b4568905667354a366066d237d9e987c4f524f4847d64a31ea0cbc6045ed31"
+  },
+  "provenance\\QQQ_options_raw_theta_data_contract_prompt.txt": {
+    "bytes": 12234,
+    "sha256": "4b3ce6389cb5e833aa2ed7786816e5027f51ab0000bbf106c51299448b45b16a"
+  },
+  "resolved_config.json": {
+    "bytes": 3537,
+    "sha256": "012f231d32f6e2875eafe630444b1cfc7951f5119016a28e390612e00832fa47"
+  },
+  "run_manifest.json": {
+    "bytes": 5317,
+    "sha256": "8245f3085602d1a9d90b04420a4b4a4e57bfa33215c00c1303f72166f069e0e4"
+  },
+  "session_calendar.parquet": {
+    "bytes": 72058,
+    "sha256": "6017fa82d3916832d3ab732ac4819444dac7746503c0a64307fcc3d20e6a7e94"
+  },
+  "source_catalog.parquet": {
+    "bytes": 3754116,
+    "sha256": "926235ca6f23b90a7c701a8af5c9a221270ae4c93cc528de9ada877b5fc05e6a"
+  },
+  "split_manifest.json": {
+    "bytes": 1501,
+    "sha256": "70dbf7edfcaaf85ba65d42cf3284cff612c99a994961140028024975629b714c"
+  },
+  "underlying_observations\\2012-06-04.parquet": {
+    "bytes": 28844,
+    "sha256": "085f5dfff434fdb40ef95ea925502826090e293e53ba182e172363aae4ca22d7"
+  },
+  "underlying_observations\\2012-06-05.parquet": {
+    "bytes": 28383,
+    "sha256": "2d44638d5695705dbdb5c4b968f7327ff03de65fe57f6f459eca4a6db71f6334"
+  },
+  "underlying_observations\\2012-06-06.parquet": {
+    "bytes": 28417,
+    "sha256": "a92a386d43aee0e133900ed7720d963d74c2a7f0981bc8cbafdade8c7aab07f4"
+  },
+  "underlying_observations\\2012-06-07.parquet": {
+    "bytes": 28417,
+    "sha256": "1f791d2493e81790da9b888dae7743ba3d48aff7f299c5220bd934978c88f4b5"
+  },
+  "underlying_observations\\2012-06-08.parquet": {
+    "bytes": 27714,
+    "sha256": "751fa81297b5caf8349c1155ab3608c2efd3f8b792fedcb5650f2b9d21c00d93"
+  }
+}

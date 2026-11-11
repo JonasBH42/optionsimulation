@@ -1,0 +1,146 @@
+QQQ WHOLE-CHAIN 4-DTE RESEARCH / BACKTEST
+
+Files
+  qqq_4dte_backtest.py         Standalone engine; independent of the simulator app.
+  qqq_4dte_backtest_tests.py   Deterministic TEST_FIXTURE_ONLY acceptance tests.
+  qqq_4dte_config.json         Editable, versioned run configuration.
+
+The script was placed in D:\optionsimulation because that is the writable
+workspace in this session. The three supplied documents in D:\strategy calculation
+and the canonical datasets under D:\QQQ are read-only inputs.
+
+Requirements
+  Python 3.11+; numpy, pandas, pyarrow, scipy, pandas_market_calendars, psutil, threadpoolctl.
+  matplotlib is optional for atlas figures.
+  If needed: python -m pip install numpy pandas pyarrow scipy pandas_market_calendars psutil threadpoolctl matplotlib
+
+Run from PowerShell
+  Set-Location D:\optionsimulation
+  python .\qqq_4dte_backtest.py self-test
+  python .\qqq_4dte_backtest.py audit --config .\qqq_4dte_config.json
+
+Preview a small scope without writing anything:
+  python .\qqq_4dte_backtest.py run --config .\qqq_4dte_config.json --run-id preview --start 2012-06-08 --end 2012-06-08 --dry-run
+
+Build the full configured descriptive study (potentially substantial time/storage):
+  python .\qqq_4dte_backtest.py run --config .\qqq_4dte_config.json
+
+Build one real expiration first:
+  python .\qqq_4dte_backtest.py run --config .\qqq_4dte_config.json --run-id sample_20120608 --start 2012-06-08 --end 2012-06-08
+
+Date bounds select EXPIRATIONS. The script still loads each expiration's E-4
+entry session and all intervening sessions. Missing E-4 data does not move entry.
+No date bounds means discover the available archive. Calls and puts and ALL
+observed strikes are inventoried; there is no delta/premium/OI liquidity filter.
+
+Outputs are under paths.research_root/runs/<run_id>/, normally:
+  D:\optionsimulation\qqq_4dte_research\runs\<run_id>\
+
+Important outputs
+  run_manifest.json, resolved_config.json, provenance/   Frozen source/config/code lineage.
+  source_catalog.parquet, audit.json                    Source audit and duplicate diagnostics.
+  cohort_registry.csv, session_calendar.parquet         Included/excluded cohorts and calendar.
+  partition_coverage.csv, missing_data_requests.csv      Explicit expected-vs-present units.
+  panels/<expiry>/contract_master.parquet               Identity and first-seen inventory.
+  panels/<expiry>/option_observations/                   Normalized source events, invalids retained.
+  panels/<expiry>/lifecycle_observations/                Current-completed-minute fixed-ID panel.
+  panels/<expiry>/chain_snapshots.parquet               Moving chain and all scheduled times.
+  panels/<expiry>/asof_diagnostics/                     Prior-only quotes, with exposed record age.
+  panels/<expiry>/sparse_grid_contract.json              How absent contract/time keys represent missingness.
+  panels/<expiry>/labels.parquet                        Separate future-label namespace.
+  description/                                         Equal-expiration statistics and coverage.
+  atlas/index.html                                     Portable local atlas and inspectable CSV links.
+
+Timing and source semantics
+  Underlying bars are START_LABELED, as explicitly verified by the user:
+  the 09:30 bar describes [09:30,09:31), available at 09:31 New York time.
+  Option events used at that completed-bar decision must have source time <09:31.
+  Theta timestamps are treated as SNAPSHOT_RECORD_TIME, not as a verified quote
+  update clock. Original quote-update age remains unknown. A missing quote never
+  receives the next future quote, and no prior-session quote becomes current.
+  QQQ Parquet close is authoritative; vendor underlying_price is diagnostic only.
+  Alternative source roots require source_policy.version and an explicit
+  source_policy.root_override_evidence; the default follows the supplied contracts.
+  Zero-volume underlying rows are excluded. Zero-bid/positive-ask quotes remain.
+  Same-session/EOD oi is never an intraday feature. Duplicate oi_before partitions
+  are quarantined and reported; the script does not silently select a filename.
+
+Missing contract and expiry evidence
+  Quoted prices, spreads, observations, spot-moneyness, and fixed-contract changes
+  can be studied without pretending missing product terms are known.
+  Actual multipliers/deliverables are not defaulted to 100/standard. Without verified
+  metadata, USD, intrinsic/time-value, and constrained American-chain outputs are
+  unsupported. Vendor IV/Greeks remain diagnostic. No zero rate/dividend is invented.
+  Official expiry payoff requires verified economic/trading boundaries AND a
+  separately verified reference price/time. Last available 15:59 close is never
+  silently substituted. Account exercise/assignment is outside this implementation.
+
+Optional reference files (supply real evidence; examples below are schema only)
+  reference.product_rules_file: JSON with profiles[] and boundaries[].
+    A profile has roots[], effective_from, effective_to, multiplier, deliverable_id,
+    standard_unadjusted=true, exercise_style=AMERICAN, settlement_type=PHYSICAL
+    and evidence. It asserts historically verified terms
+    only for those roots/dates; do not include adjusted roots without evidence.
+    A boundary has expiration, economic_expiry_ny,
+    official_last_option_trading_time_ny, settlement_reference_time_ny, evidence,
+    and optionally exercise_instruction_boundary_ny.
+  reference.contract_metadata_file: CSV with root, expiration, strike (quoted units),
+    right, multiplier, deliverable_id, listing_effective_time, listing_known_at, source.
+    Optional effective_from/effective_to distinguish effective-dated records.
+  reference.terminal_reference_file: CSV with expiration, price, reference_time_ny,
+    known_at_ny, source, evidence. The price time must match verified boundary rules.
+  reference.listed_universe_complete_expirations: only assert complete historical
+    listing denominators when the reference actually establishes completeness.
+  clocks.calendar_file: optional JSON with version, provenance and sessions[];
+    each session has session_date, regular_open_ny, regular_close_ny. Otherwise
+    use the installed versioned pandas_market_calendars NASDAQ schedule.
+
+American pricing scope
+  Exercise-aware CRR and independent implicit-obstacle FD functions and bracketed
+  IV-interval inversion are provided and numerically tested. Their declared carry
+  domain is explicit continuous dividend yield. They are not automatically applied
+  to the archive without verified product/rate/dividend inputs and convergence
+  validation for that domain. Discrete cash-dividend pricing, actual assignment,
+  and global IV/model validation are unsupported, rather than approximated silently.
+
+Chronological prediction, separately from descriptive backtesting
+  python .\qqq_4dte_backtest.py freeze-splits --config .\qqq_4dte_config.json
+  python .\qqq_4dte_backtest.py train --config .\qqq_4dte_config.json --development-only
+  python .\qqq_4dte_backtest.py freeze-release --config .\qqq_4dte_config.json
+  python .\qqq_4dte_backtest.py evaluate-final --config .\qqq_4dte_config.json --sealed-test
+
+Training can be expensive: configurable factor ranks, neighbor counts, ridge
+penalties, horizons and expanding folds are registered explicitly. B0 uses
+time/phase-conditioned empirical joint responses; B1 uses conditional historical
+analogs; B2 uses ridge means plus whole empirical residual vectors. A no-change
+baseline is included. Future labels stay separate from causal feature columns.
+Learned scalers, masks and factors are fitted within training folds. Cohort and
+actual label intervals are purged. Missingness and local support are reported.
+Mean/quantile/probability/distribution scores compare identical supported cases;
+calendar blocks carry all co-occurring chains together in uncertainty calculations.
+
+The final 20% of calendar sessions is sealed before model selection. Default
+descriptive output excludes the sealed period. --include-final explicitly exposes
+the full descriptive archive and marks that holdout consumed for future prediction
+selection. A completed final test cannot be reset with a new run_id or a shifted,
+overlapping period. A new confirmation requires a genuinely later holdout. Predictions
+are direct-horizon, conditional on observable joint endpoints; they do not imply
+a multi-step path, continuous-time hit probability, or executable strategy.
+The released forecasting interface targets named joint grid summaries; a decoder
+into a full future fixed-contract chain is unsupported. Scenario-domain failures,
+per-target calibration, joint tails and alternative calendar block lengths are
+reported before any narrow direct-summary validation label can be issued.
+
+Restart and immutability
+  Run/build-panel/labels resume matching completed artifacts; .part files are not
+  completion markers. Source size/mtime, source hashes when read, contract hashes,
+  calendar/reference versions, config and code identity are recorded. Source changes
+  invalidate relevant panel checkpoints. Code/config/reference changes require a
+  new run_id to prevent stale learned artifacts being silently reused. Interrupted
+  final evaluation can resume only the exact same frozen release.
+  An OS file lock prevents concurrent writers to the same run_id. Source reads are
+  sequential, numeric threads are bounded, and memory/resource use is recorded.
+
+No acquisition, broker access, automatic order routing, or strategy optimization is
+implemented. The research plan's optional joint path/decision/account layer remains
+disabled. A finding of no reliable predictive advantage is a valid outcome.

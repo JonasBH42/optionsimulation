@@ -1,0 +1,52 @@
+{
+  "artifacts": {
+    "panels\\2012-06-08\\asof_diagnostics\\2012-06-04.parquet": "b42d34ca87b40abaa3a6bf69e993d2fdff2085f62ea5c4f8749c422dc3c4524e",
+    "panels\\2012-06-08\\asof_diagnostics\\2012-06-05.parquet": "8617758f2bd49175cdf14b07e8feec30871f0f6e1664f40e62958e5cec24186b",
+    "panels\\2012-06-08\\asof_diagnostics\\2012-06-06.parquet": "e0031c4a8150de777152acc278b7d89dd8458d37d462b842bb4bf8618f650842",
+    "panels\\2012-06-08\\asof_diagnostics\\2012-06-07.parquet": "eb319e864c37e52237bbb77b86ad37e1ad5480795ad0f1e53acb29915ec4afcc",
+    "panels\\2012-06-08\\asof_diagnostics\\2012-06-08.parquet": "72bb8d648442640f1771434328b550bc9c2cd869494293501f87aeea30a6a043",
+    "panels\\2012-06-08\\chain_snapshots.parquet": "0b6d11e68b3a5c3808639c297cf0b5d3b9da8b86ce88e6f8eabaf58b0de2dabf",
+    "panels\\2012-06-08\\contract_master.parquet": "5399e760e8214e8f999cfe9cbeb1a68fe21b80e2ec8bd0b4248227ff194ba5d5",
+    "panels\\2012-06-08\\lifecycle_observations\\2012-06-04.parquet": "d834e6b0012b08881db77c77bf56df6f3bb108ff0729b7007b2abdf9637cca02",
+    "panels\\2012-06-08\\lifecycle_observations\\2012-06-05.parquet": "bf2edf43f794cc537fc7a6a955fc145647a3dd52dfddcc769c32e20a5e61d325",
+    "panels\\2012-06-08\\lifecycle_observations\\2012-06-06.parquet": "8eef816c87efa872a3d62caeacf0276bf048aa0bfcd1d4d82b8c3c89d41efea6",
+    "panels\\2012-06-08\\lifecycle_observations\\2012-06-07.parquet": "86faaddcf5d184c9925b051d92ff27252a79973565579500932ba176eff069dc",
+    "panels\\2012-06-08\\lifecycle_observations\\2012-06-08.parquet": "a8271a9a8247c12a96d753304c53cfc15e9c0ce86e79b3d89a0aca28d4693a5d",
+    "panels\\2012-06-08\\option_observations\\2012-06-04.parquet": "b5e19900a821aee4040288c52a94560812c278c5d99eebbb02af3fa813662b21",
+    "panels\\2012-06-08\\option_observations\\2012-06-05.parquet": "9633fa15688b32bb725a5710ca4d9faf2f8228b4d39fea445133ebba09451921",
+    "panels\\2012-06-08\\option_observations\\2012-06-06.parquet": "39f424522407d4e01a10efcceb9512cea1bd2ab4ed542afb98853866bb54ff29",
+    "panels\\2012-06-08\\option_observations\\2012-06-07.parquet": "1453a34f436400cacc6037c351cd7b40ede2326935e39e26287863fbb25aea49",
+    "panels\\2012-06-08\\option_observations\\2012-06-08.parquet": "adc2a2e1be78f59bd82d2e8f7dde21a2f1c2a8f7fb88729e89a7d0c776a85f50",
+    "panels\\2012-06-08\\unit_status.csv": "bafb7a3c4c481aab6313758c3cb0c71479c1ec84c7e73e6040cc9f18753016c0"
+  },
+  "blocked_units": [],
+  "cache_key": "f0fd1a148b02d28d4cb10ee1a0442c0e0361634c35a74dc549d0d928cd40699e",
+  "status": "COMPLETE_FOR_AVAILABLE_INPUTS",
+  "units": [
+    {
+      "current_rows": 15600,
+      "session_date": "2012-06-04",
+      "status": "BUILT"
+    },
+    {
+      "current_rows": 15600,
+      "session_date": "2012-06-05",
+      "status": "BUILT"
+    },
+    {
+      "current_rows": 15600,
+      "session_date": "2012-06-06",
+      "status": "BUILT"
+    },
+    {
+      "current_rows": 15600,
+      "session_date": "2012-06-07",
+      "status": "BUILT"
+    },
+    {
+      "current_rows": 15600,
+      "session_date": "2012-06-08",
+      "status": "BUILT"
+    }
+  ]
+}

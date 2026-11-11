@@ -1,0 +1,47 @@
+{
+  "calendar_sessions": [
+    "2012-06-04",
+    "2012-06-05",
+    "2012-06-06",
+    "2012-06-07",
+    "2012-06-08"
+  ],
+  "catalog_identity": "dad1af32831a18aae0287a15f9f952b8cfa2e760b6aed6c94ccbe0da84a0d6f3",
+  "final": {
+    "purged_boundary_cohorts": [
+      "CALENDAR_DATE_4:2012-06-08"
+    ],
+    "training_cohorts": [],
+    "validation_cohorts": []
+  },
+  "final_test_consumed": false,
+  "folds": [
+    {
+      "fold_id": "development_2",
+      "purged_boundary_cohorts": [
+        "CALENDAR_DATE_4:2012-06-08"
+      ],
+      "training_cohorts": [],
+      "training_cutoff": "2012-06-06 09:30:00-04:00",
+      "validation_cohorts": [],
+      "validation_end": "2012-06-07 09:30:00-04:00",
+      "validation_start": "2012-06-06 09:30:00-04:00"
+    },
+    {
+      "fold_id": "development_4",
+      "purged_boundary_cohorts": [
+        "CALENDAR_DATE_4:2012-06-08"
+      ],
+      "training_cohorts": [],
+      "training_cutoff": "2012-06-07 09:30:00-04:00",
+      "validation_cohorts": [],
+      "validation_end": "2012-06-08 09:30:00-04:00",
+      "validation_start": "2012-06-07 09:30:00-04:00"
+    }
+  ],
+  "protocol": "CHRONOLOGICAL_COMPLETE_LIFECYCLE_PURGE_AND_LABEL_AVAILABLE_AT_CUTOFF",
+  "schema_version": "1.0",
+  "sealed_test_identity": "c742efdee7c08ddc5028f11e8af1b7f2dc6ffe8a65018c2195d3ff9e1f2f4fe5",
+  "sealed_test_start": "2012-06-08 09:30:00-04:00",
+  "split_id": "d14322ed72220c8bcaa8613cecaad993cbb7185f7fb2fbbe48e80579c43ac905"
+}

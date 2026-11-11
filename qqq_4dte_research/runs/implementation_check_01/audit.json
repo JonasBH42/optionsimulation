@@ -1,0 +1,51 @@
+{
+  "acquisition": "DISABLED_LOCAL_READ_ONLY",
+  "blocked_prerequisites": [
+    {
+      "remediation": "Supply effective-dated standard-product/deliverable/multiplier evidence; quoted price and spot-moneyness research continues.",
+      "stage": "intrinsic_USD_shape_IV",
+      "status": "UNSUPPORTED_ADJUSTED_OR_UNKNOWN_DELIVERABLE"
+    },
+    {
+      "remediation": "Supply verified contractual economic/trading boundaries and an independent terminal-reference file. A 15:59 close is not substituted.",
+      "stage": "full_expiry_payoff",
+      "status": "TERMINAL_REFERENCE_MISSING"
+    },
+    {
+      "remediation": "Observed-universe results only; complete historical listings have not been supplied.",
+      "stage": "listed_universe",
+      "status": "UNVERIFIED_LISTED_UNIVERSE"
+    }
+  ],
+  "candidate_expirations": 1,
+  "catalog_identity": "dad1af32831a18aae0287a15f9f952b8cfa2e760b6aed6c94ccbe0da84a0d6f3",
+  "catalog_partitions_by_type": {
+    "greeks": 5633,
+    "ohlcv": 5632,
+    "oi": 7070,
+    "oi_before": 12763,
+    "trades": 5632,
+    "underlying": 6529
+  },
+  "cohort_status_counts": {
+    "ELIGIBLE_ARCHIVE_DISCOVERED": 1
+  },
+  "duplicate_logical_partitions_by_type": {
+    "oi_before": 5539
+  },
+  "expected_session_dataset_units": 30,
+  "expiry_weekday_by_status": [
+    {
+      "count": 1,
+      "eligible_status": "ELIGIBLE_ARCHIVE_DISCOVERED",
+      "expiry_weekday": "Friday"
+    }
+  ],
+  "missing_or_conflicting_units": 5,
+  "options_session_end": "2025-09-16",
+  "options_session_start": "2012-06-01",
+  "schema_audit_scope": "STRATIFIED_HEADER_SAMPLES_FULL_VALIDATION_ON_READ",
+  "schema_headers_inspected": 15,
+  "schema_version": "1.0",
+  "source_coverage_claim": "ARCHIVE_DISCOVERED_EXPIRATIONS_AND_OBSERVED_CONTRACTS_ONLY"
+}

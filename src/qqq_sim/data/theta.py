@@ -124,7 +124,13 @@ class IndexedPartition:
     """One cache entry owns both raw bytes and the time index referencing them."""
     partition: RawPartition
     mapping_identity: str
-    index: TemporalIndex
+    index: TemporalIndex | None
+    replay_index: object | None = None
+    replay_identity: object | None = None
+    replay_size: int = 0
+    trade_index: object | None = None
+    trade_identity: object | None = None
+    trade_size: int = 0
 
 
 class ThetaReader:
@@ -240,7 +246,11 @@ class ThetaReader:
             index = TemporalIndex(names, records, tuple(sorted(raw)), tuple(sorted(available)), tuple(unknown), tuple(event_times))
             # The index retains the raw rows. Account that storage in this same
             # entry so eviction cannot leave an uncounted full-session copy.
-            self.cache.put(key, IndexedPartition(raw_partition, mapping_identity, index), raw_partition.size_bytes + len(records) * 320)
+            retained = cached if isinstance(cached, IndexedPartition) and cached.mapping_identity == mapping_identity else None
+            replay = (retained.replay_index, retained.replay_identity, retained.replay_size) if retained else (None, None, 0)
+            trade = (retained.trade_index, retained.trade_identity, retained.trade_size) if retained else (None, None, 0)
+            self.cache.put(key, IndexedPartition(raw_partition, mapping_identity, index, *replay, *trade),
+                           raw_partition.size_bytes + len(records) * 320 + replay[2] + trade[2])
         return index.names, (index.before(cutoff, inclusive) if interval_start is None
                              else index.window(interval_start, cutoff, inclusive))
 
@@ -259,14 +269,21 @@ class ThetaReader:
         strike, divisor = resolve_strike(field(row, "strike", schema), spot, mapping, schema.get("strike", "strike"))
         return ContractKey(partition.key.expiration, strike, normalize_right(field(row, "right", schema)), metadata_verified=mapping.metadata_verified), divisor
 
-    def quotes(self, partition: Partition, cutoff: datetime, spot: float | None, mapping: NormalizationMapping | None = None, inclusive: bool = False, spot_at=None, interval_start=None):
+    def quotes(self, partition: Partition, cutoff: datetime, spot: float | None, mapping: NormalizationMapping | None = None, inclusive: bool = False, spot_at=None, interval_start=None, _row_offsets=None, _raw_partition=None):
         """Read causal quotes, optionally restricted to one replay interval.
 
         Interval diagnostics concern the selected source-time groups. Full
         snapshots continue to validate the entire visible quote history.
         """
         mapping = mapping or NormalizationMapping()
-        names, records = self.visible_records(partition, cutoff, mapping, inclusive, interval_start)
+        if _row_offsets is None:
+            names, records = self.visible_records(partition, cutoff, mapping, inclusive, interval_start)
+        else:
+            # Replay indexes certify complete same-time groups before selecting
+            # offsets. All selected rows still use the ordinary canonical parser.
+            raw_partition = _raw_partition or self.raw_partition(partition)
+            names = raw_partition.names
+            records = ((raw_partition.row_numbers[offset], raw_partition.rows[offset]) for offset in _row_offsets)
         schema = canonical_schema(names)
         missing = [key for key in ("strike", "right", "bid", "ask") if key not in schema]
         if missing:
@@ -420,10 +437,15 @@ class ThetaReader:
         return dict(result)
 
     def trades(self, partition: Partition, cutoff: datetime, spot, mapping: NormalizationMapping | None = None,
-               allowed_conditions=frozenset({"REGULAR"}), inclusive=False, interval_start=None):
+               allowed_conditions=frozenset({"REGULAR"}), inclusive=False, interval_start=None, _row_offsets=None, _raw_partition=None):
         """Retain unknown conditions diagnostically; corrections apply when known."""
         mapping = mapping or NormalizationMapping()
-        names, records = self.visible_records(partition,cutoff,mapping,inclusive,interval_start)
+        if _row_offsets is None:
+            names, records = self.visible_records(partition,cutoff,mapping,inclusive,interval_start)
+        else:
+            raw = _raw_partition or self.raw_partition(partition)
+            names = raw.names
+            records = ((raw.row_numbers[offset], raw.rows[offset]) for offset in _row_offsets)
         schema = canonical_schema(names)
         missing = [key for key in ("strike", "right", "last") if key not in schema]
         if missing or "size" not in names:

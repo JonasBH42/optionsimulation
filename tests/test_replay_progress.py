@@ -49,13 +49,17 @@ def test_progress_starts_before_loading_and_is_throttled(controller,monkeypatch)
 def test_partial_progress_only_reports_durable_prefix(controller,monkeypatch):
     ticks=iter(index*.3 for index in range(20))
     monkeypatch.setattr("qqq_sim.replay.controller.monotonic",lambda:next(ticks))
-    original=controller.data.snapshot
+    monkeypatch.setattr("qqq_sim.replay.fast_forward.monotonic",lambda:next(ticks))
+    original=controller.data.coverage_gap
     unavailable=controller.decision_at+timedelta(minutes=2)
-    def snapshot(at,**kwargs):
-        if at==unavailable:
+    def coverage_gap(start,end,**kwargs):
+        if end==unavailable:
             raise DataError("TEST_UNAVAILABLE", "Required observation missing")
-        return original(at,**kwargs)
-    monkeypatch.setattr(controller.data,"snapshot",snapshot)
+        return original(start,end,**kwargs)
+    # Inject a missing required observation, rather than requiring a display
+    # snapshot to be built for every intermediate minute.
+    monkeypatch.setattr(controller.data,"coverage_gap",coverage_gap)
+    monkeypatch.setattr(controller.data,"prepare_replay_window",lambda *args,**kwargs:controller.data)
     records=[]
     def progress(record):
         saved=controller.store.restore(controller.branch_id)
